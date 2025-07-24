@@ -38,6 +38,8 @@ export interface DataResponse {
     quality: string
     citation: string
     license: string
+    url?: string
+    note?: string
   }
   success: boolean
   error?: string
@@ -193,41 +195,11 @@ class OpenDataIntegrationService {
         return cached
       }
 
-      // Build ISPRA API URL
-      const params = new URLSearchParams({
-        resource_id: this.getISPRAResourceId(query.source, query.parameter),
-        limit: '100'
-      })
-
-      if (query.location) {
-        params.append('filters', JSON.stringify({ location: query.location }))
-      }
-
-      if (query.dateFrom) {
-        params.append('filters', JSON.stringify({ 
-          timestamp: { '>=': query.dateFrom } 
-        }))
-      }
-
-      const url = `${source.baseUrl}?${params.toString()}`
-      console.log(`Fetching ISPRA data: ${url}`)
-
-      const response = await fetch(url, {
-        method: 'GET',
-        headers: {
-          'Accept': 'application/json',
-          'User-Agent': 'ProteoMarineAssistant/1.0'
-        }
-      })
-
-      if (!response.ok) {
-        throw new Error(`HTTP ${response.status}: ${response.statusText}`)
-      }
-
-      const jsonData = await response.json()
+      // For demo purposes, return mock data instead of real API calls
+      // Real implementation would need valid ISPRA resource IDs
+      console.warn(`ISPRA API: Using mock data for ${query.source}/${query.parameter} - real resource IDs needed for production`)
       
-      // Process ISPRA response format
-      const processedData = this.processISPRAResponse(jsonData, query.parameter)
+      const processedData = this.getMockISPRAData(query)
       
       const result: DataResponse = {
         source: source.id,
@@ -236,9 +208,10 @@ class OpenDataIntegrationService {
         metadata: {
           queryTime: new Date(),
           dataCount: processedData.length,
-          quality: 'verified',
-          citation: `${source.name} - ISPRA (${new Date().getFullYear()})`,
-          license: source.license
+          quality: 'demo',
+          citation: `${source.name} - ISPRA (${new Date().getFullYear()}) - Demo Mode`,
+          license: source.license,
+          note: 'Mock data for demonstration - production requires valid ISPRA resource IDs'
         },
         success: true
       }
@@ -272,52 +245,11 @@ class OpenDataIntegrationService {
       const cached = this.getCachedData(cacheKey)
       if (cached) return cached
 
-      // Build EMODnet API URL based on service type
-      let url = ''
-      const params = new URLSearchParams()
-
-      switch (query.source) {
-        case 'emodnet_chemistry':
-          url = `${source.baseUrl}/chemistry/data`
-          params.append('parameter', query.parameter)
-          params.append('region', 'Mediterranean')
-          break
-          
-        case 'emodnet_physics':
-          url = `${source.baseUrl}/physics/measurements`
-          params.append('parameter', query.parameter)
-          params.append('region', 'Mediterranean')
-          break
-          
-        case 'emodnet_biology':
-          url = `${source.baseUrl}/biology/occurrences`
-          params.append('scientificname', query.parameter)
-          params.append('region', 'Mediterranean')
-          break
-      }
-
-      if (query.dateFrom && query.dateTo) {
-        params.append('startdate', query.dateFrom)
-        params.append('enddate', query.dateTo)
-      }
-
-      const fullUrl = `${url}?${params.toString()}`
-      console.log(`Fetching EMODnet data: ${fullUrl}`)
-
-      const response = await fetch(fullUrl, {
-        method: 'GET',
-        headers: {
-          'Accept': 'application/json',
-          'User-Agent': 'ProteoMarineAssistant/1.0'
-        }
-      })
-
-      if (!response.ok) {
-        throw new Error(`HTTP ${response.status}: ${response.statusText}`)
-      }
-
-      const jsonData = await response.json()
-      const processedData = this.processEMODnetResponse(jsonData, query.parameter)
+      // EMODnet APIs have CORS restrictions for browser-based requests
+      // In production, these should be proxied through a backend server
+      console.warn(`EMODnet API: Using mock data for ${query.source}/${query.parameter} - CORS restrictions require backend proxy`)
+      
+      const processedData = this.getMockEMODnetData(query)
 
       const result: DataResponse = {
         source: source.id,
@@ -326,9 +258,10 @@ class OpenDataIntegrationService {
         metadata: {
           queryTime: new Date(),
           dataCount: processedData.length,
-          quality: 'quality_controlled',
-          citation: `${source.nameEn} - EMODnet (${new Date().getFullYear()})`,
-          license: source.license
+          quality: 'demo',
+          citation: `${source.nameEn} - EMODnet (${new Date().getFullYear()}) - Demo Mode`,
+          license: source.license,
+          note: 'Mock data for demonstration - production requires backend proxy for CORS'
         },
         success: true
       }
@@ -471,46 +404,7 @@ class OpenDataIntegrationService {
       .filter(response => response.success)
   }
 
-  /**
-   * Process ISPRA API response
-   * Elabora risposta API ISPRA
-   */
-  private processISPRAResponse(apiResponse: any, parameter: string): any[] {
-    if (!apiResponse.result?.records) {
-      return []
-    }
 
-    return apiResponse.result.records.map((record: any) => ({
-      timestamp: record.timestamp || new Date().toISOString(),
-      value: record[parameter] || record.value,
-      location: record.station_name || record.location || 'Unknown',
-      unit: this.getParameterUnit(parameter),
-      quality: record.quality || 'good',
-      source: 'ISPRA'
-    }))
-  }
-
-  /**
-   * Process EMODnet API response
-   * Elabora risposta API EMODnet
-   */
-  private processEMODnetResponse(apiResponse: any, parameter: string): any[] {
-    if (!apiResponse.data) {
-      return []
-    }
-
-    return apiResponse.data.map((record: any) => ({
-      timestamp: record.time || record.date,
-      value: record.value || record[parameter],
-      location: record.location || `${record.latitude?.toFixed(2)}, ${record.longitude?.toFixed(2)}`,
-      latitude: record.latitude,
-      longitude: record.longitude,
-      depth: record.depth,
-      unit: this.getParameterUnit(parameter),
-      quality: record.qc_flag || 'good',
-      source: 'EMODnet'
-    }))
-  }
 
   /**
    * Process Copernicus API response
@@ -585,51 +479,7 @@ class OpenDataIntegrationService {
     return Math.round((Math.random() * (max - min) + min) * 100) / 100
   }
 
-  /**
-   * Get parameter unit
-   * Ottieni unità parametro
-   */
-  private getParameterUnit(parameter: string): string {
-    const units: Record<string, string> = {
-      'temperature': '°C',
-      'sea_temperature': '°C',
-      'chlorophyll': 'µg/L',
-      'chlorophyll_concentration': 'µg/L',
-      'wave_height': 'm',
-      'wave_period': 's',
-      'ph': '',
-      'salinity': 'PSU',
-      'dissolved_oxygen': 'mg/L',
-      'sea_level': 'm',
-      'tide_height': 'm'
-    }
 
-    return units[parameter] || ''
-  }
-
-  /**
-   * Get ISPRA resource ID for parameter
-   * Ottieni ID risorsa ISPRA per parametro
-   */
-  private getISPRAResourceId(source: string, parameter: string): string {
-    // These are example resource IDs - real IDs should be obtained from ISPRA catalog
-    const resourceIds: Record<string, Record<string, string>> = {
-      'ispra_rmn': {
-        'sea_level': '12345678-1234-1234-1234-123456789012',
-        'tide_height': '12345678-1234-1234-1234-123456789013'
-      },
-      'ispra_ron': {
-        'wave_height': '12345678-1234-1234-1234-123456789014',
-        'sea_temperature': '12345678-1234-1234-1234-123456789015'
-      },
-      'ispra_water_quality': {
-        'ph': '12345678-1234-1234-1234-123456789016',
-        'chlorophyll': '12345678-1234-1234-1234-123456789017'
-      }
-    }
-
-    return resourceIds[source]?.[parameter] || 'default-resource-id'
-  }
 
   /**
    * Rate limiting check
@@ -753,6 +603,74 @@ class OpenDataIntegrationService {
     }
     
     return results
+  }
+
+  /**
+   * Generate mock ISPRA data for demonstration
+   * Genera dati ISPRA mock per dimostrazione
+   */
+  private getMockISPRAData(query: DataQuery): any[] {
+    const baseValue = Math.random() * 100
+    const mockData = []
+    
+    for (let i = 0; i < 10; i++) {
+      const timestamp = new Date(Date.now() - i * 24 * 60 * 60 * 1000)
+      mockData.push({
+        timestamp: timestamp.toISOString(),
+        value: baseValue + (Math.random() - 0.5) * 10,
+        unit: this.getParameterUnit(query.parameter),
+        location: query.location || 'Mediterraneo',
+        quality: 'good',
+        station: `ISPRA_${Math.floor(Math.random() * 100)}`
+      })
+    }
+    
+    return mockData
+  }
+
+  /**
+   * Generate mock EMODnet data for demonstration
+   * Genera dati EMODnet mock per dimostrazione
+   */
+  private getMockEMODnetData(query: DataQuery): any[] {
+    const baseValue = Math.random() * 50
+    const mockData = []
+    
+    for (let i = 0; i < 15; i++) {
+      const timestamp = new Date(Date.now() - i * 12 * 60 * 60 * 1000)
+      mockData.push({
+        timestamp: timestamp.toISOString(),
+        value: baseValue + (Math.random() - 0.5) * 5,
+        unit: this.getParameterUnit(query.parameter),
+        latitude: 40.0 + Math.random() * 5,
+        longitude: 12.0 + Math.random() * 8,
+        depth: Math.random() * 100,
+        parameter: query.parameter
+      })
+    }
+    
+    return mockData
+  }
+
+  /**
+   * Get standard unit for parameter
+   * Ottieni unità standard per parametro
+   */
+  private getParameterUnit(parameter: string): string {
+    const units: Record<string, string> = {
+      'temperature': '°C',
+      'sea_temperature': '°C',
+      'ph': '',
+      'dissolved_oxygen': 'mg/L',
+      'chlorophyll': 'µg/L',
+      'salinity': 'PSU',
+      'wave_height': 'm',
+      'sea_level': 'm',
+      'turbidity': 'NTU',
+      'nutrients': 'µmol/L'
+    }
+    
+    return units[parameter] || 'unit'
   }
 }
 
