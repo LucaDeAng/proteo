@@ -7,7 +7,8 @@ import { ProteoChatInput, FileWithPreview, PastedContent } from './ui/proteo-cha
 import { MarineInspiration } from './ui/marine-inspiration'
 import { MarineDataDashboard } from './ui/marine-data-dashboard'
 import EnhancedQuickActions from './ui/enhanced-quick-actions'
-import { useChat } from '@/hooks/useChat'
+import { useAdvancedChat } from '@/hooks/useAdvancedChat'
+import ScientificResponse from './ui/scientific-response'
 
 /**
  * Main chat interface component for Proteo
@@ -15,7 +16,13 @@ import { useChat } from '@/hooks/useChat'
  */
 export const ProteoChat: React.FC = () => {
   const messagesEndRef = useRef<HTMLDivElement>(null)
-  const { messages, isLoading, sendMessage } = useChat()
+  const { 
+    messages, 
+    isLoading, 
+    sendMessage, 
+    handleSuggestionClick,
+    handleVisualizationClick
+  } = useAdvancedChat()
   const [showInspiration, setShowInspiration] = useState(messages.length === 0)
   const [isDashboardCollapsed, setIsDashboardCollapsed] = useState(false)
 
@@ -126,11 +133,35 @@ export const ProteoChat: React.FC = () => {
                 </motion.div>
               ) : (
                 messages.map((message, index) => (
-                  <MessageBubble 
-                    key={message.id} 
-                    message={message} 
-                    index={index}
-                  />
+                  <div key={message.id}>
+                    <MessageBubble 
+                      message={message} 
+                      index={index}
+                    />
+                    
+                    {/* Enhanced Scientific Response for bot messages */}
+                    {message.sender === 'bot' && (message.sources || message.citations || message.suggestions) && (
+                      <div className="mt-3 ml-11">
+                        <ScientificResponse
+                          content=""
+                          sources={message.sources || []}
+                          citations={message.citations || []}
+                          suggestions={message.suggestions || []}
+                          visualizations={message.visualizations || []}
+                          confidence={message.confidence || 0.5}
+                          metadata={message.metadata || {
+                            processingTime: 0,
+                            dataSourcesUsed: 0,
+                            knowledgeNodesAccessed: 0,
+                            queryComplexity: 'simple',
+                            cacheHit: false
+                          }}
+                          onSuggestionClick={handleSuggestionClick}
+                          onVisualizationClick={handleVisualizationClick}
+                        />
+                      </div>
+                    )}
+                  </div>
                 ))
               )}
             </AnimatePresence>
