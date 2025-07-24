@@ -1,0 +1,290 @@
+/* Mobile-First Responsive Improvements for Proteo Marine Assistant */
+
+/* Enhanced focus indicators for accessibility */
+.focus-ocean:focus-visible {
+  outline: 2px solid #0ea5e9;
+  outline-offset: 2px;
+  border-radius: 0.375rem;
+  box-shadow: 0 0 0 4px rgba(14, 165, 233, 0.1);
+}
+
+/* Improved touch targets for mobile - minimum 44px as per WCAG */
+@media (max-width: 768px) {
+  .touch-target {
+    min-height: 44px !important;
+    min-width: 44px !important;
+  }
+  
+  /* Quick action buttons - larger touch areas */
+  .quick-action-btn {
+    padding: 0.75rem !important;
+    font-size: 0.875rem !important;
+    min-height: 44px !important;
+  }
+  
+  /* Marine data cards - mobile optimized */
+  .marine-data-card {
+    padding: 1rem !important;
+    min-height: 100px !important;
+  }
+  
+  /* Chat input - prevent zoom on iOS */
+  .chat-input-mobile {
+    font-size: 16px !important;
+    padding: 1rem !important;
+    border-radius: 0.75rem !important;
+  }
+  
+  /* Message bubbles - better mobile spacing */
+  .message-bubble-mobile {
+    max-width: 90% !important;
+    margin-bottom: 1rem !important;
+  }
+  
+  /* Dashboard cards - stack vertically */
+  .dashboard-mobile {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 0.75rem !important;
+  }
+  
+  /* Enhanced quick actions - horizontal scroll */
+  .quick-actions-mobile {
+    overflow-x: auto !important;
+    scrollbar-width: none !important;
+    -ms-overflow-style: none !important;
+    padding-bottom: 0.5rem !important;
+  }
+  
+  .quick-actions-mobile::-webkit-scrollbar {
+    display: none !important;
+  }
+  
+  /* Swipeable action cards */
+  .action-card-swipe {
+    flex-shrink: 0 !important;
+    width: auto !important;
+    min-width: 140px !important;
+  }
+}
+
+/* Tablet optimizations */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .dashboard-tablet {
+    grid-template-columns: repeat(3, 1fr) !important;
+  }
+  
+  .quick-actions-tablet {
+    grid-template-columns: repeat(3, 1fr) !important;
+  }
+}
+
+/* Data visualization animations */
+.data-pulse {
+  animation: dataPulse 2s ease-in-out infinite;
+}
+
+@keyframes dataPulse {
+  0%, 100% { 
+    opacity: 0.7;
+    transform: scale(1);
+  }
+  50% { 
+    opacity: 1;
+    transform: scale(1.05);
+  }
+}
+
+/* Marine-themed gradients */
+.bg-marine-gradient {
+  background: linear-gradient(135deg, #0ea5e9 0%, #06b6d4 50%, #0891b2 100%);
+}
+
+.bg-marine-subtle {
+  background: linear-gradient(135deg, #f0f9ff 0%, #e0f7fa 100%);
+}
+
+.bg-marine-card {
+  background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(14, 165, 233, 0.1);
+}
+
+/* Enhanced loading states */
+.marine-skeleton {
+  background: linear-gradient(90deg, #f0f9ff 25%, #e0f7fa 50%, #f0f9ff 75%);
+  background-size: 200% 100%;
+  animation: marineLoading 1.5s infinite;
+}
+
+@keyframes marineLoading {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* Smooth data transitions */
+.data-transition {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.data-value-change {
+  animation: valueChange 0.6s ease-out;
+}
+
+@keyframes valueChange {
+  0% { 
+    transform: scale(1); 
+    color: inherit; 
+  }
+  50% { 
+    transform: scale(1.1); 
+    color: #0ea5e9; 
+  }
+  100% { 
+    transform: scale(1); 
+    color: inherit; 
+  }
+}
+
+/* Improved scrollbars */
+.custom-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(14, 165, 233, 0.3) transparent;
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: rgba(14, 165, 233, 0.3);
+  border-radius: 3px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: rgba(14, 165, 233, 0.5);
+}
+
+/* Enhanced hover states */
+.hover-lift {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.hover-lift:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(14, 165, 233, 0.15);
+}
+
+/* Status indicators */
+.status-indicator {
+  position: relative;
+}
+
+.status-indicator::before {
+  content: '';
+  position: absolute;
+  top: -2px;
+  right: -2px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  border: 2px solid white;
+}
+
+.status-real::before {
+  background-color: #10b981;
+  animation: statusPulse 2s infinite;
+}
+
+.status-demo::before {
+  background-color: #f59e0b;
+  animation: statusPulse 2s infinite;
+}
+
+.status-error::before {
+  background-color: #ef4444;
+  animation: statusPulse 2s infinite;
+}
+
+@keyframes statusPulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  .marine-dark {
+    --ocean-50: #0f172a;
+    --ocean-100: #1e293b;
+    --ocean-200: #334155;
+    --ocean-300: #475569;
+    --ocean-400: #64748b;
+    --ocean-500: #94a3b8;
+    --ocean-600: #cbd5e1;
+    --ocean-700: #e2e8f0;
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  .data-pulse,
+  .marine-skeleton,
+  .data-value-change,
+  .status-indicator::before {
+    animation: none !important;
+  }
+  
+  .data-transition,
+  .hover-lift {
+    transition: none !important;
+  }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .data-badge {
+    border-width: 2px !important;
+    font-weight: bold !important;
+  }
+  
+  .marine-data-card {
+    border-width: 2px !important;
+  }
+}
+
+/* Print styles */
+@media print {
+  .marine-data-dashboard,
+  .quick-actions-bar {
+    display: none !important;
+  }
+  
+  .message-bubble {
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
+  }
+}
+
+/* Utility classes for marine theme */
+.text-marine-gradient {
+  background: linear-gradient(135deg, #0ea5e9, #06b6d4);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.border-marine-glow {
+  border: 1px solid rgba(14, 165, 233, 0.3);
+  box-shadow: 0 0 0 1px rgba(14, 165, 233, 0.1), 
+              0 2px 4px rgba(14, 165, 233, 0.1);
+}
+
+.marine-glass {
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}

@@ -5,7 +5,8 @@ import { Card, CardContent, CardHeader, CardTitle } from './ui/card'
 import { MessageBubble } from './MessageBubble'
 import { ProteoChatInput, FileWithPreview, PastedContent } from './ui/proteo-chat-input'
 import { MarineInspiration } from './ui/marine-inspiration'
-import { CircularRevealHeading } from './ui/circular-reveal-heading'
+import { MarineDataDashboard } from './ui/marine-data-dashboard'
+import EnhancedQuickActions from './ui/enhanced-quick-actions'
 import { useChat } from '@/hooks/useChat'
 
 /**
@@ -16,6 +17,7 @@ export const ProteoChat: React.FC = () => {
   const messagesEndRef = useRef<HTMLDivElement>(null)
   const { messages, isLoading, sendMessage } = useChat()
   const [showInspiration, setShowInspiration] = useState(messages.length === 0)
+  const [isDashboardCollapsed, setIsDashboardCollapsed] = useState(false)
 
   // Auto-scroll to bottom when new messages arrive
   // Auto-scroll in fondo quando arrivano nuovi messaggi
@@ -46,16 +48,16 @@ export const ProteoChat: React.FC = () => {
     await sendMessage(fullMessage)
   }
 
-  // Circular reveal data for marine themes
-  const circularRevealItems = [
-    { text: "OCEANO", image: "https://images.unsplash.com/photo-1505142468610-359e7d316be0?w=400" },
-    { text: "VITA", image: "https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=400" },
-    { text: "MARE", image: "https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=400" },
-    { text: "PROTEO", image: "https://images.unsplash.com/photo-1583212292454-1fe6229603b7?w=400" }
-  ]
 
   return (
-    <div className="w-full max-w-7xl mx-auto space-y-6 p-4">
+    <div className="w-full max-w-7xl mx-auto space-y-4 p-2 sm:p-4">
+      {/* Marine Data Dashboard */}
+      <MarineDataDashboard 
+        isCollapsed={isDashboardCollapsed}
+        onToggle={setIsDashboardCollapsed}
+        className="rounded-xl shadow-sm"
+      />
+
       {/* Hero Section with Marine Inspiration */}
       {showInspiration && (
         <motion.div
@@ -64,37 +66,14 @@ export const ProteoChat: React.FC = () => {
           exit={{ opacity: 0, y: -20 }}
           className="space-y-6"
         >
-          {/* Circular Reveal Header */}
-          <div className="flex justify-center mb-8">
-            <CircularRevealHeading
-              items={circularRevealItems}
-              centerText={
-                <div className="text-center">
-                  <motion.h1
-                    className="text-4xl font-bold bg-gradient-to-r from-ocean-600 to-blue-600 bg-clip-text text-transparent mb-2"
-                    animate={{ scale: [1, 1.02, 1] }}
-                    transition={{ duration: 2, repeat: Infinity }}
-                  >
-                    PROTEO
-                  </motion.h1>
-                  <p className="text-ocean-500 text-sm font-medium">
-                    Assistente Marino Intelligente
-                  </p>
-                </div>
-              }
-              size="lg"
-              className="mx-auto"
-            />
-          </div>
-
           {/* Marine Inspiration Gallery */}
           <MarineInspiration className="mb-6" />
         </motion.div>
       )}
 
       {/* Messages Display Area */}
-      <Card className={`flex flex-col bg-white/95 backdrop-blur-sm border-2 border-ocean-200 transition-all duration-500 ${
-        showInspiration ? 'h-[300px]' : 'h-[500px]'
+      <Card className={`flex flex-col bg-white/95 backdrop-blur-sm border-2 border-ocean-200 transition-all duration-500 marine-glass ${
+        showInspiration ? 'h-[300px] sm:h-[350px]' : 'h-[400px] sm:h-[500px]'
       }`}>
         <CardHeader className="pb-4 border-b border-ocean-100 flex-shrink-0">
           <CardTitle className="text-ocean-700 flex items-center gap-3 text-lg">
@@ -108,7 +87,7 @@ export const ProteoChat: React.FC = () => {
       
         <CardContent className="flex-1 flex flex-col p-0 overflow-hidden">
           {/* Messages area / Area messaggi */}
-          <div className="flex-1 overflow-y-auto p-3 space-y-3 min-h-0">
+          <div className="flex-1 overflow-y-auto p-3 space-y-3 min-h-0 custom-scrollbar">
             <AnimatePresence>
               {messages.length === 0 ? (
                 <motion.div 
@@ -181,15 +160,26 @@ export const ProteoChat: React.FC = () => {
         </CardContent>
       </Card>
 
-      {/* Advanced Chat Input */}
-      <ProteoChatInput
-        onSendMessage={handleSendMessage}
-        disabled={isLoading}
-        placeholder="Chiedimi informazioni sui dati marini ISPRA, carica file o usa le azioni rapide..."
-        maxFiles={5}
-        maxFileSize={10 * 1024 * 1024} // 10MB
-        showQuickActions={true}
-      />
+      {/* Enhanced Chat Input with Better Quick Actions */}
+      <div className="bg-white rounded-xl shadow-lg border-2 border-ocean-200 overflow-hidden marine-glass">
+        <EnhancedQuickActions
+          onActionClick={async (prompt) => {
+            await sendMessage(prompt)
+          }}
+          disabled={isLoading}
+          compact={false}
+        />
+        <div className="p-2 sm:p-4">
+          <ProteoChatInput
+            onSendMessage={handleSendMessage}
+            disabled={isLoading}
+            placeholder="Chiedimi informazioni sui dati marini ISPRA, carica file o seleziona un'azione rapida sopra..."
+            maxFiles={5}
+            maxFileSize={10 * 1024 * 1024} // 10MB
+            showQuickActions={false}
+          />
+        </div>
+      </div>
 
       {/* Enhanced Footer with Marine Theme */}
       <motion.div 
