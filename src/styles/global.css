@@ -1,0 +1,200 @@
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+
+/* CSS Custom Properties for theme colors */
+/* Proprietà CSS personalizzate per colori tema */
+:root {
+  --background: 0 0% 100%;
+  --foreground: 222.2 84% 4.9%;
+  --card: 0 0% 100%;
+  --card-foreground: 222.2 84% 4.9%;
+  --popover: 0 0% 100%;
+  --popover-foreground: 222.2 84% 4.9%;
+  --primary: 199 89% 48%;
+  --primary-foreground: 210 40% 98%;
+  --secondary: 210 40% 96%;
+  --secondary-foreground: 222.2 84% 4.9%;
+  --muted: 210 40% 96%;
+  --muted-foreground: 215.4 16.3% 46.9%;
+  --accent: 210 40% 96%;
+  --accent-foreground: 222.2 84% 4.9%;
+  --destructive: 0 84.2% 60.2%;
+  --destructive-foreground: 210 40% 98%;
+  --border: 214.3 31.8% 91.4%;
+  --input: 214.3 31.8% 91.4%;
+  --ring: 199 89% 48%;
+  --radius: 0.75rem;
+}
+
+/* Base styles */
+/* Stili base */
+* {
+  border-color: hsl(var(--border));
+}
+
+body {
+  background-color: hsl(var(--background));
+  color: hsl(var(--foreground));
+  font-feature-settings: "rlig" 1, "calt" 1;
+}
+
+/* Accessibility: Respect reduced motion preference */
+/* Accessibilità: Rispetta preferenza movimento ridotto */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Custom scrollbar for webkit browsers */
+/* Scrollbar personalizzata per browser webkit */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: theme('colors.ocean.50');
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: theme('colors.ocean.300');
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: theme('colors.ocean.400');
+}
+
+/* Focus styles for better accessibility */
+/* Stili focus per migliore accessibilità */
+.focus-visible:focus-visible {
+  outline: 2px solid theme('colors.ocean.500');
+  outline-offset: 2px;
+}
+
+/* High contrast mode support */
+/* Supporto modalità alto contrasto */
+@media (prefers-contrast: high) {
+  :root {
+    --border: 0 0% 20%;
+    --ring: 199 89% 30%;
+  }
+}
+
+/* Print styles */
+/* Stili stampa */
+@media print {
+  * {
+    background: transparent !important;
+    color: black !important;
+    box-shadow: none !important;
+    text-shadow: none !important;
+  }
+  
+  .no-print {
+    display: none !important;
+  }
+}
+
+/* Marine theme specific utilities */
+/* Utilità specifiche tema marino */
+.ocean-gradient {
+  background: linear-gradient(135deg, theme('colors.sky.50') 0%, theme('colors.cyan.100') 100%);
+}
+
+.text-ocean-gradient {
+  background: linear-gradient(135deg, theme('colors.ocean.600') 0%, theme('colors.cyan.600') 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Animation utilities */
+/* Utilità animazioni */
+.animate-wave {
+  animation: wave 2s ease-in-out infinite;
+}
+
+@keyframes wave {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-5px); }
+}
+
+.animate-float {
+  animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  50% { transform: translateY(-10px) rotate(1deg); }
+}
+
+/* Typography enhancements */
+/* Miglioramenti tipografici */
+.font-marine {
+  font-family: 'system-ui', '-apple-system', 'BlinkMacSystemFont', '"Segoe UI"', 'Roboto', 'sans-serif';
+}
+
+.font-mythological {
+  font-family: 'Times New Roman', 'Times', 'serif';
+  font-style: italic;
+}
+
+/* Component-specific styles */
+/* Stili specifici componenti */
+.chat-bubble {
+  word-wrap: break-word;
+  hyphens: auto;
+}
+
+.message-content pre {
+  white-space: pre-wrap;
+  font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+  background: theme('colors.gray.100');
+  padding: theme('spacing.2');
+  border-radius: theme('borderRadius.md');
+  overflow-x: auto;
+}
+
+/* Loading states */
+/* Stati caricamento */
+.loading-shimmer {
+  background: linear-gradient(90deg, 
+    theme('colors.gray.200') 25%, 
+    theme('colors.gray.300') 50%, 
+    theme('colors.gray.200') 75%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 2s infinite;
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+/* Error states */
+/* Stati errore */
+.error-message {
+  color: theme('colors.red.600');
+  background-color: theme('colors.red.50');
+  border: 1px solid theme('colors.red.200');
+  border-radius: theme('borderRadius.md');
+  padding: theme('spacing.3');
+}
+
+/* Success states */
+/* Stati successo */
+.success-message {
+  color: theme('colors.green.600');
+  background-color: theme('colors.green.50');
+  border: 1px solid theme('colors.green.200');
+  border-radius: theme('borderRadius.md');
+  padding: theme('spacing.3');
+}
