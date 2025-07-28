@@ -166,20 +166,39 @@ class AdvancedRAGService {
       this.knowledgeGraph.set(sp.id, node)
     })
 
-    // Projects nodes
+    // Projects nodes with enhanced MER project data
     const projects = [
       {
         id: 'mer_project',
-        name: 'Marine Ecosystem Restoration',
+        name: 'Progetto MER - Marine Ecosystem Restoration',
         type: 'restoration',
         budget: '400M EUR',
-        duration: '2022-2026'
+        duration: '2022-2026',
+        description: 'Il più grande progetto marino del PNRR per il ripristino degli ecosistemi italiani',
+        goals: ['Posidonia oceanica restoration', 'Ostrea edulis repopulation', 'Habitat mapping', 'Climate adaptation'],
+        coverage: '10,200 km2 mapping area'
+      },
+      {
+        id: 'mer_seagrass',
+        name: 'MER Seagrass Restoration',
+        type: 'habitat_restoration',
+        target_species: ['Posidonia oceanica', 'Cymodocea nodosa'],
+        technology: 'LiDAR and satellite mapping'
+      },
+      {
+        id: 'mer_oyster',
+        name: 'MER Native Oyster Recovery',
+        type: 'species_restoration',
+        target_species: 'Ostrea edulis',
+        regions: ['Friuli Venezia Giulia', 'Veneto', 'Emilia Romagna', 'Marche', 'Abruzzo'],
+        goal: '1 million larvae production'
       },
       {
         id: 'ispra_monitoring',
         name: 'ISPRA Marine Monitoring Network',
         type: 'monitoring',
-        scope: 'national'
+        scope: 'national',
+        technology: 'HF radar antennas'
       }
     ]
 
@@ -511,20 +530,12 @@ class AdvancedRAGService {
   private async generateEnhancedAnswer(context: any): Promise<string> {
     const { query, queryAnalysis, memoryContext, relevantNodes, realTimeData, publications } = context
 
-    let answer = `🔬 **Analisi Marine Avanzata per: "${query}"**\n\n`
+    // Start with a natural greeting based on query intent
+    let answer = this.generateNaturalIntro(query, queryAnalysis.intent) + '\n\n'
 
-    // Add real-time data section
+    // Add real-time data in conversational style
     if (realTimeData.length > 0) {
-      answer += `📊 **DATI IN TEMPO REALE:**\n`
-      
-      for (const dataSource of realTimeData.slice(0, 3)) {
-        if (dataSource.data && dataSource.data.length > 0) {
-          const latestData = dataSource.data[0]
-          answer += `• **${dataSource.parameter}**: ${latestData.value} ${latestData.unit} (${latestData.location})\n`
-          answer += `  ↳ Fonte: ${dataSource.metadata.citation} - Qualità: ${dataSource.metadata.quality}\n`
-        }
-      }
-      answer += '\n'
+      answer += this.formatRealTimeDataNaturally(realTimeData)
     }
 
     // Add knowledge graph insights
@@ -893,6 +904,101 @@ Ho comunque raccolto alcune informazioni di base dai nostri dati marini. Per un'
       distribution[relation.type] = (distribution[relation.type] || 0) + 1
     }
     return distribution
+  }
+
+  /**
+   * Generate natural conversational introduction
+   * Genera introduzione conversazionale naturale
+   */
+  private generateNaturalIntro(query: string, intent: string): string {
+    const intros = {
+      'data': [
+        `Ciao! Perfetto, posso aiutarti con i dati marini per "${query}". 🌊`,
+        `Interessante domanda sui dati marini! Vediamo cosa ho trovato per te.`,
+        `Ottima richiesta! Ho alcune informazioni fresche sui dati che stai cercando.`
+      ],
+      'education': [
+        `Che bella domanda! Mi piace spiegare questi aspetti del mondo marino. 🐠`,
+        `Perfetto, ti spiego tutto quello che so su questo argomento!`,
+        `Grande curiosità! È sempre un piacere condividere conoscenze marine.`
+      ],
+      'comparison': [
+        `Ah, vuoi confrontare i dati! Ottima idea, vediamo le differenze insieme.`,
+        `Interessante confronto! Ti mostro cosa emerge dai dati.`,
+        `Perfetto per un'analisi comparativa! Ecco cosa ho trovato.`
+      ],
+      'trend': [
+        `Analizzare i trend è fondamentale! Vediamo come stanno evolvendo le cose.`,
+        `Ottima domanda sui trend temporali! Ti mostro l'andamento.`,
+        `I trend marini sono affascinanti! Ecco cosa sta succedendo.`
+      ],
+      'explanation': [
+        `Bella domanda! Ti spiego il meccanismo dietro questo fenomeno.`,
+        `Perfetto, mi piace spiegare il "perché" delle cose marine!`,
+        `Ottima curiosità scientifica! Vediamo di chiarire tutto.`
+      ]
+    }
+
+    const options = intros[intent as keyof typeof intros] || intros.data
+    return options[Math.floor(Math.random() * options.length)]
+  }
+
+  /**
+   * Format real-time data in natural conversation style
+   * Formatta dati real-time in stile conversazionale naturale
+   */
+  private formatRealTimeDataNaturally(realTimeData: any[]): string {
+    let response = `Dai dati più recenti che ho raccolto:\n\n`
+    
+    for (const dataSource of realTimeData.slice(0, 2)) {
+      if (dataSource.data && dataSource.data.length > 0) {
+        const latestData = dataSource.data[0]
+        const value = latestData.value
+        const unit = latestData.unit
+        const location = latestData.location
+        
+        // Add context-aware commentary
+        const commentary = this.generateDataCommentary(dataSource.parameter, value, unit)
+        
+        response += `🌊 **${dataSource.parameter}** nella zona ${location}: **${value} ${unit}**\n`
+        response += `${commentary}\n`
+        response += `_Fonte: ${dataSource.metadata.citation}_\n\n`
+      }
+    }
+    
+    return response
+  }
+
+  /**
+   * Generate contextual commentary for data values
+   * Genera commenti contestuali per i valori dei dati
+   */
+  private generateDataCommentary(parameter: string, value: number, _unit: string): string {
+    const commentaries: Record<string, (val: number) => string> = {
+      'temperature': (val) => {
+        if (val > 25) return `Temperatura piuttosto elevata per la stagione! Potrebbe indicare un'anomalia termica.`
+        if (val < 15) return `Temperature abbastanza fresche, tipiche del periodo invernale nel Mediterraneo.`
+        return `Temperature nella norma per le nostre acque. Ideali per la maggior parte della vita marina.`
+      },
+      'sea_temperature': (val) => {
+        if (val > 25) return `Mare caldo! Ottimo per la balneazione, ma teniamo d'occhio gli stress termici sui coralli.`
+        if (val < 15) return `Acque fresche che favoriscono il rimescolamento delle masse d'acqua.`
+        return `Temperature marine equilibrate, perfette per l'ecosistema mediterraneo.`
+      },
+      'ph': (val) => {
+        if (val < 7.9) return `pH leggermente acidificato. È un segnale che monitoriamo nel progetto MER.`
+        if (val > 8.2) return `pH elevato, potrebbe essere legato alla fotosintesi delle alghe marine.`
+        return `pH marino nella norma, segno di un ecosistema in equilibrio.`
+      },
+      'chlorophyll': (val) => {
+        if (val > 5) return `Alta concentrazione di clorofilla! Probabile bloom algale in corso.`
+        if (val < 1) return `Bassi livelli di clorofilla, acque oligotrofiche tipiche del Mediterraneo.`
+        return `Livelli di clorofilla normali, indicatori di una produttività equilibrata.`
+      }
+    }
+
+    const generator = commentaries[parameter]
+    return generator ? generator(value) : `Valore interessante che aggiungiamo al nostro monitoraggio continuo.`
   }
 }
 
