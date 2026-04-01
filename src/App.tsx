@@ -1,50 +1,36 @@
-import { useEffect } from 'react'
-import { Header } from './components/Header'
-import { ProteoChat } from './components/ProteoChat'
-import { WavyBackground } from './components/ui/wavy-background'
-import { dataUpdater } from './services/dataUpdater'
+import { useActiveSlide } from './hooks/useActiveSlide'
+import { NavDots } from './components/NavDots'
+import HeroSlide from './components/slides/HeroSlide'
+import VoidSlide from './components/slides/VoidSlide'
+import BigBangSlide from './components/slides/BigBangSlide'
+import FirstStarsSlide from './components/slides/FirstStarsSlide'
+import IceAgeSlide from './components/slides/IceAgeSlide'
+import CambrianSlide from './components/slides/CambrianSlide'
+import IntelligenceSlide from './components/slides/IntelligenceSlide'
+import SingularitySlide from './components/slides/SingularitySlide'
+import GalaxyMapSlide from './components/slides/GalaxyMapSlide'
 
-/**
- * Main App component with marine gradient background
- * Componente App principale con sfondo gradient marino
- */
+const TOTAL_SLIDES = 9
+
 function App() {
-  // Initialize marine data updates / Inizializza aggiornamenti dati marini
-  useEffect(() => {
-    dataUpdater.start()
-    
-    return () => {
-      dataUpdater.stop()
-    }
-  }, [])
+  const { activeSlide, scrollToSlide, containerRef } = useActiveSlide(TOTAL_SLIDES)
 
   return (
-    <WavyBackground
-      className=""
-      containerClassName="min-h-screen"
-      colors={[
-        "#0ea5e9", // sky-500 - bright ocean blue
-        "#0284c7", // sky-600 - deeper ocean
-        "#0369a1", // sky-700 - deep sea blue
-        "#38bdf8", // sky-400 - light ocean
-        "#22d3ee", // cyan-400 - tropical water
-        "#06b6d4", // cyan-500 - turquoise
-        "#0891b2", // cyan-600 - teal
-      ]}
-      waveWidth={50}
-      backgroundFill="rgb(240 249 255)" // sky-50
-      blur={10}
-      speed="slow"
-      waveOpacity={0.3}
-    >
-      <Header />
-      
-      <main className="relative z-10 py-8">
-        <div className="container mx-auto">
-          <ProteoChat />
-        </div>
-      </main>
-    </WavyBackground>
+    <>
+      <NavDots active={activeSlide} total={TOTAL_SLIDES} onNavigate={scrollToSlide} />
+
+      <div ref={containerRef} className="scroll-container">
+        <HeroSlide index={0} active={activeSlide === 0} />
+        <VoidSlide index={1} active={activeSlide === 1} />
+        <BigBangSlide index={2} active={activeSlide === 2} />
+        <FirstStarsSlide index={3} active={activeSlide === 3} />
+        <IceAgeSlide index={4} active={activeSlide === 4} />
+        <CambrianSlide index={5} active={activeSlide === 5} />
+        <IntelligenceSlide index={6} active={activeSlide === 6} />
+        <SingularitySlide index={7} active={activeSlide === 7} />
+        <GalaxyMapSlide index={8} active={activeSlide === 8} />
+      </div>
+    </>
   )
 }
 
