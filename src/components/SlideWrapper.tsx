@@ -7,6 +7,10 @@ interface SlideWrapperProps {
   children: ReactNode
   canvas?: ReactNode
   className?: string
+  chapter?: number
+  quote?: string
+  quoteAuthor?: string
+  stats?: Array<{ value: string; label: string; color?: string }>
 }
 
 const textVariants = {
@@ -18,12 +22,34 @@ const textVariants = {
   }),
 }
 
-export function SlideWrapper({ index, active, children, canvas, className = '' }: SlideWrapperProps) {
+export function SlideWrapper({
+  index,
+  active,
+  children,
+  canvas,
+  className = '',
+  chapter,
+  quote,
+  quoteAuthor,
+  stats,
+}: SlideWrapperProps) {
   return (
     <section
       data-slide={index}
       className={`relative h-screen w-full flex-shrink-0 snap-start overflow-hidden ${className}`}
     >
+      {/* Ghost chapter number */}
+      {chapter != null && (
+        <motion.span
+          initial={{ opacity: 0, scale: 0.85 }}
+          animate={active ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.85 }}
+          transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
+          className="absolute top-0 right-8 z-20 pointer-events-none select-none font-display text-[12rem] leading-none text-white/[0.03]"
+        >
+          {String(chapter).padStart(2, '0')}
+        </motion.span>
+      )}
+
       {/* Canvas background layer */}
       {canvas && (
         <div className="absolute inset-0 z-0">
@@ -43,6 +69,44 @@ export function SlideWrapper({ index, active, children, canvas, className = '' }
           }}
         >
           {children}
+
+          {/* Quote block */}
+          {quote && quoteAuthor && (
+            <motion.blockquote
+              variants={textVariants}
+              custom={4}
+              className="mt-8 border-l-2 border-white/10 pl-4 max-w-md"
+            >
+              <p className="italic text-white/40 text-sm leading-relaxed">{quote}</p>
+              <cite className="mt-2 block font-mono text-xs text-white/30 not-italic">
+                — {quoteAuthor}
+              </cite>
+            </motion.blockquote>
+          )}
+
+          {/* Stat pills */}
+          {stats && stats.length > 0 && (
+            <motion.div
+              variants={textVariants}
+              custom={5}
+              className="mt-4 flex flex-wrap gap-3"
+            >
+              {stats.map((stat, i) => (
+                <span
+                  key={i}
+                  className="inline-flex items-center gap-2 bg-white/5 border border-white/10 rounded-full px-3 py-1"
+                >
+                  <span
+                    className="font-mono font-bold text-sm"
+                    style={stat.color ? { color: stat.color } : undefined}
+                  >
+                    {stat.value}
+                  </span>
+                  <span className="text-xs text-white/40">{stat.label}</span>
+                </span>
+              ))}
+            </motion.div>
+          )}
         </motion.div>
       </div>
     </section>

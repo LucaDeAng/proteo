@@ -2,7 +2,8 @@ import { useCallback, useRef, useMemo, useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { createNoise2D } from 'simplex-noise'
 import { useCanvas } from '../canvas/useCanvas'
-import { milestones, eraColors, eras, type Milestone, type Era } from '../../data/aiHistory'
+import { milestones, eraColors, eras, t, type Milestone, type Era } from '../../data/aiHistory'
+import { useLang } from '../../hooks/useLang'
 
 interface GalaxyMapSlideProps {
   active: boolean
@@ -57,6 +58,7 @@ function eraLabel(era: Era): string {
 }
 
 export default function GalaxyMapSlide({ active, index }: GalaxyMapSlideProps) {
+  const { lang } = useLang()
   const noise2D = useMemo(() => createNoise2D(), [])
   const starsRef = useRef<StarPos[]>([])
   const prevSizeRef = useRef({ w: 0, h: 0 })
@@ -343,7 +345,7 @@ export default function GalaxyMapSlide({ active, index }: GalaxyMapSlideProps) {
                 </span>
               </div>
               <h3 className="font-display font-semibold text-sm text-white mb-1">{hovered.name}</h3>
-              <p className="text-white/60 text-xs leading-relaxed">{hovered.description}</p>
+              <p className="text-white/60 text-xs leading-relaxed">{t(hovered.description, lang)}</p>
               {hovered.creator && (
                 <p className="text-white/40 text-xs mt-2 font-mono italic">{hovered.creator}</p>
               )}

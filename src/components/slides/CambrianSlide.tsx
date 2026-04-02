@@ -2,7 +2,8 @@ import { useCallback, useRef } from 'react'
 import { createNoise2D } from 'simplex-noise'
 import { useCanvas } from '../canvas/useCanvas'
 import { SlideWrapper, SlideTag, SlideTitle, SlideBody, MilestoneCard } from '../SlideWrapper'
-import { eras, milestones } from '../../data/aiHistory'
+import { eras, milestones, t } from '../../data/aiHistory'
+import { useLang } from '../../hooks/useLang'
 
 interface Props {
   active: boolean
@@ -110,6 +111,7 @@ function initSpirals(w: number, h: number): Spiral[] {
 }
 
 export default function CambrianSlide({ active, index }: Props) {
+  const { lang } = useLang()
   const noise2D = useRef(createNoise2D()).current
   const organismsRef = useRef<Organism[] | null>(null)
   const spiralsRef = useRef<Spiral[] | null>(null)
@@ -402,6 +404,10 @@ export default function CambrianSlide({ active, index }: Props) {
     <SlideWrapper
       index={index}
       active={active}
+      chapter={era.chapter}
+      quote={t(era.quote.text, lang)}
+      quoteAuthor={`${era.quote.author}, ${era.quote.year}`}
+      stats={era.stats.map(s => ({ value: s.value, label: t(s.label, lang), color: era.glowColor }))}
       canvas={
         <canvas
           ref={canvasRef}
@@ -421,24 +427,24 @@ export default function CambrianSlide({ active, index }: Props) {
               backgroundClip: 'text',
             }}
           >
-            {era.name}
+            {t(era.name, lang)}
           </span>
           <br />
           <span className="text-white/40 text-2xl sm:text-3xl md:text-4xl font-light">
-            {era.cosmicName}
+            {t(era.cosmicName, lang)}
           </span>
         </SlideTitle>
-        <SlideBody>{era.description}</SlideBody>
+        <SlideBody>{t(era.description, lang)}</SlideBody>
         <MilestoneCard
           year={deepBlue.year}
           name={deepBlue.name}
-          description={deepBlue.description}
+          description={t(deepBlue.description, lang)}
           color={era.color}
         />
         <MilestoneCard
           year={imageNet.year}
           name={imageNet.name}
-          description={imageNet.description}
+          description={t(imageNet.description, lang)}
           color={era.color}
         />
       </div>

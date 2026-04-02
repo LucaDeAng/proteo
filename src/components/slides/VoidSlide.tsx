@@ -2,7 +2,8 @@ import { useCallback, useRef } from 'react'
 import { createNoise2D } from 'simplex-noise'
 import { SlideWrapper, SlideTag, SlideTitle, SlideBody, MilestoneCard } from '../SlideWrapper'
 import { useCanvas } from '../canvas/useCanvas'
-import { eras, milestones } from '../../data/aiHistory'
+import { eras, milestones, t } from '../../data/aiHistory'
+import { useLang } from '../../hooks/useLang'
 
 interface VoidSlideProps {
   active: boolean
@@ -25,6 +26,7 @@ interface SymbolParticle {
 }
 
 export default function VoidSlide({ active, index }: VoidSlideProps) {
+  const { lang } = useLang()
   const era = eras.find((e) => e.id === 'void')!
   const turingMachine = milestones.find((m) => m.id === 'turing-machine')!
   const lovelace = milestones.find((m) => m.id === 'lovelace')!
@@ -147,7 +149,15 @@ export default function VoidSlide({ active, index }: VoidSlideProps) {
   )
 
   return (
-    <SlideWrapper index={index} active={active} canvas={canvasEl}>
+    <SlideWrapper
+      index={index}
+      active={active}
+      canvas={canvasEl}
+      chapter={era.chapter}
+      quote={t(era.quote.text, lang)}
+      quoteAuthor={`${era.quote.author}, ${era.quote.year}`}
+      stats={era.stats.map(s => ({ value: s.value, label: t(s.label, lang), color: era.glowColor }))}
+    >
       <div className="pl-8 sm:pl-16 md:pl-24 pr-6 max-w-3xl">
         <SlideTag>{era.period}</SlideTag>
         <SlideTitle>
@@ -159,24 +169,24 @@ export default function VoidSlide({ active, index }: VoidSlideProps) {
               backgroundClip: 'text',
             }}
           >
-            {era.name}
+            {t(era.name, lang)}
           </span>
           <span className="text-white/30 ml-3 text-2xl sm:text-3xl md:text-4xl font-light italic">
-            {era.cosmicName}
+            {t(era.cosmicName, lang)}
           </span>
         </SlideTitle>
-        <SlideBody>{era.description}</SlideBody>
+        <SlideBody>{t(era.description, lang)}</SlideBody>
 
         <MilestoneCard
           year={turingMachine.year}
           name={turingMachine.name}
-          description={turingMachine.description}
+          description={t(turingMachine.description, lang)}
           color={era.glowColor}
         />
         <MilestoneCard
           year={lovelace.year}
           name={lovelace.name}
-          description={lovelace.description}
+          description={t(lovelace.description, lang)}
           color={era.glowColor}
         />
       </div>

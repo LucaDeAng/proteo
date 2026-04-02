@@ -2,7 +2,8 @@ import { useCallback, useRef, useMemo } from 'react'
 import { createNoise2D } from 'simplex-noise'
 import { SlideWrapper, SlideTag, SlideTitle, SlideBody, MilestoneCard } from '../SlideWrapper'
 import { useCanvas } from '../canvas/useCanvas'
-import { eras, milestones } from '../../data/aiHistory'
+import { eras, milestones, t } from '../../data/aiHistory'
+import { useLang } from '../../hooks/useLang'
 
 interface IntelligenceSlideProps {
   active: boolean
@@ -34,6 +35,7 @@ interface AmbientParticle {
 }
 
 export default function IntelligenceSlide({ active, index }: IntelligenceSlideProps) {
+  const { lang } = useLang()
   const nodesRef = useRef<Node[]>([])
   const particlesRef = useRef<AmbientParticle[]>([])
   const initedRef = useRef(false)
@@ -288,7 +290,7 @@ export default function IntelligenceSlide({ active, index }: IntelligenceSlidePr
   )
 
   return (
-    <SlideWrapper index={index} active={active} canvas={canvasEl}>
+    <SlideWrapper index={index} active={active} chapter={era.chapter} quote={t(era.quote.text, lang)} quoteAuthor={`${era.quote.author}, ${era.quote.year}`} stats={era.stats.map(s => ({ value: s.value, label: t(s.label, lang), color: era.glowColor }))} canvas={canvasEl}>
       <div className="pl-8 sm:pl-16 md:pl-24 pr-4 max-w-2xl">
         <SlideTag>{era.period}</SlideTag>
         <SlideTitle>
@@ -300,24 +302,24 @@ export default function IntelligenceSlide({ active, index }: IntelligenceSlidePr
               backgroundClip: 'text',
             }}
           >
-            {era.name}
+            {t(era.name, lang)}
           </span>
           <br />
           <span className="text-white/60 text-2xl sm:text-3xl md:text-4xl font-light">
-            {era.cosmicName}
+            {t(era.cosmicName, lang)}
           </span>
         </SlideTitle>
-        <SlideBody>{era.description}</SlideBody>
+        <SlideBody>{t(era.description, lang)}</SlideBody>
         <MilestoneCard
           year={alexnet.year}
           name={alexnet.name}
-          description={alexnet.description}
+          description={t(alexnet.description, lang)}
           color="#a855f7"
         />
         <MilestoneCard
           year={transformer.year}
           name={transformer.name}
-          description={transformer.description}
+          description={t(transformer.description, lang)}
           color="#ec4899"
         />
       </div>

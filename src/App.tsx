@@ -1,5 +1,10 @@
+import { useState, useCallback } from 'react'
 import { useActiveSlide } from './hooks/useActiveSlide'
+import { LangContext, type Lang } from './hooks/useLang'
 import { NavDots } from './components/NavDots'
+import { LangToggle } from './components/LangToggle'
+import { YearCounter } from './components/YearCounter'
+import { TimelineBar } from './components/TimelineBar'
 import HeroSlide from './components/slides/HeroSlide'
 import VoidSlide from './components/slides/VoidSlide'
 import BigBangSlide from './components/slides/BigBangSlide'
@@ -14,10 +19,15 @@ const TOTAL_SLIDES = 9
 
 function App() {
   const { activeSlide, scrollToSlide, containerRef } = useActiveSlide(TOTAL_SLIDES)
+  const [lang, setLang] = useState<Lang>('it')
+  const toggleLang = useCallback(() => setLang((l) => (l === 'it' ? 'en' : 'it')), [])
 
   return (
-    <>
+    <LangContext.Provider value={{ lang, toggle: toggleLang }}>
+      <LangToggle />
       <NavDots active={activeSlide} total={TOTAL_SLIDES} onNavigate={scrollToSlide} />
+      <YearCounter activeSlide={activeSlide} />
+      <TimelineBar activeSlide={activeSlide} totalSlides={TOTAL_SLIDES} />
 
       <div ref={containerRef} className="scroll-container">
         <HeroSlide index={0} active={activeSlide === 0} />
@@ -30,7 +40,7 @@ function App() {
         <SingularitySlide index={7} active={activeSlide === 7} />
         <GalaxyMapSlide index={8} active={activeSlide === 8} />
       </div>
-    </>
+    </LangContext.Provider>
   )
 }
 

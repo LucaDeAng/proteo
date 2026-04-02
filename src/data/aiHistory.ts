@@ -1,166 +1,232 @@
+export type Lang = 'it' | 'en'
 export type Era = 'void' | 'bigbang' | 'stars' | 'ice' | 'cambrian' | 'intelligence' | 'singularity'
 export type Category = 'model' | 'paper' | 'event' | 'product' | 'breakthrough'
+
+export interface BiText { it: string; en: string }
 
 export interface Milestone {
   id: string
   name: string
   year: number
   era: Era
-  description: string
-  significance: number // 1-10
+  description: BiText
+  significance: number
   category: Category
   creator?: string
 }
 
+export interface EraQuote { text: BiText; author: string; year: number }
+export interface EraStat { value: string; label: BiText }
+
 export interface EraInfo {
   id: Era
-  name: string
-  cosmicName: string
+  name: BiText
+  cosmicName: BiText
   period: string
-  tagline: string
-  description: string
-  color: string // hex
-  glowColor: string // hex with more saturation
+  tagline: BiText
+  description: BiText
+  color: string
+  glowColor: string
+  chapter: number
+  quote: EraQuote
+  stats: EraStat[]
 }
 
 export const eras: EraInfo[] = [
   {
-    id: 'void',
-    name: 'Il Vuoto',
-    cosmicName: 'Proto-Materia',
+    id: 'void', chapter: 1,
+    name: { it: 'Il Vuoto', en: 'The Void' },
+    cosmicName: { it: 'Proto-Materia', en: 'Proto-Matter' },
     period: 'Pre-1950',
-    tagline: 'I sogni delle macchine pensanti',
-    description: 'Prima che l\'intelligenza artificiale avesse un nome, visionari come Leibniz, Babbage e Ada Lovelace immaginavano macchine capaci di ragionare. Nel vuoto cosmico, la materia primordiale inizia ad aggregarsi — idee sparse come polvere di stelle, in attesa di una scintilla.',
-    color: '#4c1d95',
-    glowColor: '#7c3aed',
+    tagline: { it: 'I sogni delle macchine pensanti', en: 'Dreams of thinking machines' },
+    description: {
+      it: "Prima che l'intelligenza artificiale avesse un nome, visionari come Leibniz, Babbage e Ada Lovelace immaginavano macchine capaci di ragionare. Nel vuoto cosmico, la materia primordiale inizia ad aggregarsi.",
+      en: 'Before artificial intelligence had a name, visionaries like Leibniz, Babbage and Ada Lovelace imagined machines capable of reasoning. In the cosmic void, primordial matter begins to coalesce.',
+    },
+    color: '#4c1d95', glowColor: '#7c3aed',
+    quote: { text: { it: 'La questione se le macchine possano pensare... e\u0027 rilevante quanto chiedersi se i sottomarini possano nuotare.', en: 'The question of whether machines can think... is about as relevant as the question of whether submarines can swim.' }, author: 'Edsger Dijkstra', year: 1984 },
+    stats: [
+      { value: '~300', label: { it: 'anni di sogni meccanici', en: 'years of mechanical dreams' } },
+      { value: '1843', label: { it: 'primo algoritmo (Lovelace)', en: 'first algorithm (Lovelace)' } },
+    ],
   },
   {
-    id: 'bigbang',
-    name: 'Il Big Bang',
-    cosmicName: 'La Nascita',
+    id: 'bigbang', chapter: 2,
+    name: { it: 'Il Big Bang', en: 'The Big Bang' },
+    cosmicName: { it: 'La Nascita', en: 'The Birth' },
     period: '1950 — 1956',
-    tagline: 'L\'intelligenza artificiale nasce',
-    description: 'Alan Turing pubblica "Computing Machinery and Intelligence" e chiede: le macchine possono pensare? Nel 1956, alla Dartmouth Conference, un gruppo di pionieri conia il termine "Artificial Intelligence". L\'universo dell\'AI esplode in esistenza — un Big Bang di idee che si espandono in ogni direzione.',
-    color: '#f59e0b',
-    glowColor: '#fbbf24',
+    tagline: { it: "L'intelligenza artificiale nasce", en: 'Artificial intelligence is born' },
+    description: {
+      it: 'Alan Turing pubblica "Computing Machinery and Intelligence" e chiede: le macchine possono pensare? Nel 1956, alla Dartmouth Conference, nasce ufficialmente l\'AI.',
+      en: 'Alan Turing publishes "Computing Machinery and Intelligence" and asks: can machines think? In 1956, at the Dartmouth Conference, AI is officially born.',
+    },
+    color: '#f59e0b', glowColor: '#fbbf24',
+    quote: { text: { it: 'Proponiamo che uno studio di 2 mesi e 10 uomini sull\'intelligenza artificiale venga condotto.', en: 'We propose that a 2-month, 10-man study of artificial intelligence be carried out.' }, author: 'Dartmouth Proposal', year: 1956 },
+    stats: [
+      { value: '10', label: { it: 'ricercatori a Dartmouth', en: 'researchers at Dartmouth' } },
+      { value: '1950', label: { it: 'anno del Test di Turing', en: 'year of the Turing Test' } },
+    ],
   },
   {
-    id: 'stars',
-    name: 'Le Prime Stelle',
-    cosmicName: 'L\'Età dell\'Oro',
+    id: 'stars', chapter: 3,
+    name: { it: 'Le Prime Stelle', en: 'The First Stars' },
+    cosmicName: { it: "L'Eta\u0300 dell'Oro", en: 'The Golden Age' },
     period: '1956 — 1974',
-    tagline: 'I primi programmi che "pensano"',
-    description: 'Come le prime stelle che si accendono nell\'universo giovane, i primi programmi AI illuminano il panorama: ELIZA simula uno psicoterapeuta, il Perceptron promette di imparare, SHRDLU comprende il linguaggio naturale in un mondo a blocchi. L\'ottimismo è alle stelle — letteralmente. Si predice che in 20 anni le macchine supereranno l\'uomo.',
-    color: '#ea580c',
-    glowColor: '#f97316',
+    tagline: { it: 'I primi programmi che "pensano"', en: 'The first programs that "think"' },
+    description: {
+      it: "Come le prime stelle nell'universo giovane, i primi programmi AI illuminano il panorama: ELIZA simula uno psicoterapeuta, il Perceptron promette di imparare. L'ottimismo e\u0027 alle stelle.",
+      en: 'Like the first stars in the young universe, the first AI programs light up the landscape: ELIZA simulates a therapist, the Perceptron promises to learn. Optimism is sky-high.',
+    },
+    color: '#ea580c', glowColor: '#f97316',
+    quote: { text: { it: "ELIZA riusciva a produrre un'illusione di comprensione... fui sorpreso nel vedere quanto rapidamente le persone si coinvolgessero emotivamente.", en: 'ELIZA was able to produce an illusion of understanding... I was startled to see how quickly people became emotionally involved.' }, author: 'Joseph Weizenbaum', year: 1976 },
+    stats: [
+      { value: '$2M', label: { it: 'picco fondi AI annuali USA', en: 'peak annual US AI funding' } },
+      { value: '1966', label: { it: 'ELIZA, il primo chatbot', en: 'ELIZA, the first chatbot' } },
+    ],
   },
   {
-    id: 'ice',
-    name: 'Le Ere Glaciali',
-    cosmicName: 'L\'Inverno Cosmico',
+    id: 'ice', chapter: 4,
+    name: { it: 'Le Ere Glaciali', en: 'The Ice Ages' },
+    cosmicName: { it: "L'Inverno Cosmico", en: 'The Cosmic Winter' },
     period: '1974 — 1993',
-    tagline: 'Le promesse infrante',
-    description: 'Il Lighthill Report del 1973 gela i finanziamenti britannici. Le reti neurali cadono in disgrazia. Gli expert systems degli anni \'80 promettono e deludono. Due "inverni dell\'AI" congelano il progresso — come ere glaciali cosmiche dove le stelle si spengono e il vuoto torna a dominare. Ma sotto il ghiaccio, la vita persiste.',
-    color: '#0ea5e9',
-    glowColor: '#38bdf8',
+    tagline: { it: 'Le promesse infrante', en: 'Broken promises' },
+    description: {
+      it: "Il Lighthill Report gela i finanziamenti. Le reti neurali cadono in disgrazia. Due inverni dell'AI congelano il progresso. Ma sotto il ghiaccio, la vita persiste.",
+      en: 'The Lighthill Report freezes funding. Neural networks fall from grace. Two AI winters freeze progress. But beneath the ice, life persists.',
+    },
+    color: '#0ea5e9', glowColor: '#38bdf8',
+    quote: { text: { it: "Nel campo dell'AI, non c'e\u0027 nulla di piu\u0300 permanente di chi afferma che l'intelligenza e\u0027 dietro l'angolo.", en: "In the field of AI, there is nothing more permanent than someone who claims intelligence is just around the corner." }, author: 'Drew McDermott', year: 1976 },
+    stats: [
+      { value: '2', label: { it: 'inverni dell\'AI sopravvissuti', en: 'AI winters survived' } },
+      { value: '1986', label: { it: 'backpropagation rinasce', en: 'backpropagation reborn' } },
+    ],
   },
   {
-    id: 'cambrian',
-    name: 'L\'Esplosione Cambriana',
-    cosmicName: 'Il Rinascimento',
+    id: 'cambrian', chapter: 5,
+    name: { it: "L'Esplosione Cambriana", en: 'The Cambrian Explosion' },
+    cosmicName: { it: 'Il Rinascimento', en: 'The Renaissance' },
     period: '1993 — 2012',
-    tagline: 'La diversità esplode',
-    description: 'Internet porta dati. I dati portano possibilità. Come nell\'esplosione cambriana che riempì gli oceani di forme di vita diverse, l\'AI si diversifica: Support Vector Machines, Random Forests, Deep Blue batte Kasparov, IBM Watson vince a Jeopardy. Le fondamenta del deep learning vengono poste da Hinton, LeCun, Bengio — i tre che non si arresero durante l\'inverno.',
-    color: '#10b981',
-    glowColor: '#34d399',
+    tagline: { it: 'La diversita\u0300 esplode', en: 'Diversity explodes' },
+    description: {
+      it: 'Internet porta dati. I dati portano possibilita\u0300. Deep Blue batte Kasparov. Hinton, LeCun, Bengio pongono le basi del deep learning — i tre che non si arresero durante l\'inverno.',
+      en: 'The Internet brings data. Data brings possibility. Deep Blue beats Kasparov. Hinton, LeCun, Bengio lay the foundations of deep learning — the three who never gave up during winter.',
+    },
+    color: '#10b981', glowColor: '#34d399',
+    quote: { text: { it: "Internet sta diventando la piazza del villaggio globale di domani.", en: 'The Internet is becoming the town square for the global village of tomorrow.' }, author: 'Bill Gates', year: 1999 },
+    stats: [
+      { value: '14M', label: { it: 'immagini in ImageNet', en: 'images in ImageNet' } },
+      { value: '1997', label: { it: 'Deep Blue batte Kasparov', en: 'Deep Blue beats Kasparov' } },
+    ],
   },
   {
-    id: 'intelligence',
-    name: 'L\'Intelligenza Emerge',
-    cosmicName: 'La Vita Complessa',
+    id: 'intelligence', chapter: 6,
+    name: { it: "L'Intelligenza Emerge", en: 'Intelligence Emerges' },
+    cosmicName: { it: 'La Vita Complessa', en: 'Complex Life' },
     period: '2012 — 2022',
-    tagline: 'Le reti neurali risvegliate',
-    description: 'AlexNet vince ImageNet 2012 e il deep learning esplode. Le GAN generano volti mai esistiti. AlphaGo batte il campione mondiale di Go — un momento che nessuno credeva possibile per decenni. Nel 2017, "Attention Is All You Need" introduce il Transformer. GPT, BERT, T5 emergono come organismi sempre più complessi in un ecosistema che evolve a velocità vertiginosa.',
-    color: '#a855f7',
-    glowColor: '#c084fc',
+    tagline: { it: 'Le reti neurali risvegliate', en: 'Neural networks awakened' },
+    description: {
+      it: "AlexNet vince ImageNet 2012. AlphaGo batte il campione di Go. Il Transformer cambia tutto. GPT-3 emerge con 175 miliardi di parametri.",
+      en: 'AlexNet wins ImageNet 2012. AlphaGo beats the Go champion. The Transformer changes everything. GPT-3 emerges with 175 billion parameters.',
+    },
+    color: '#a855f7', glowColor: '#c084fc',
+    quote: { text: { it: 'Attention is all you need.', en: 'Attention is all you need.' }, author: 'Vaswani et al.', year: 2017 },
+    stats: [
+      { value: '175B', label: { it: 'parametri di GPT-3', en: 'GPT-3 parameters' } },
+      { value: '2017', label: { it: 'nasce il Transformer', en: 'the Transformer is born' } },
+    ],
   },
   {
-    id: 'singularity',
-    name: 'La Singolarità',
-    cosmicName: 'La Civiltà',
+    id: 'singularity', chapter: 7,
+    name: { it: 'La Singolarita\u0300', en: 'The Singularity' },
+    cosmicName: { it: 'La Civilta\u0300', en: 'Civilization' },
     period: '2022 — 2026',
-    tagline: 'L\'intelligenza diventa universale',
-    description: 'ChatGPT raggiunge 100 milioni di utenti in 2 mesi. GPT-4 supera gli esami di medicina e legge. Claude ragiona in modo sicuro. Gemini vede e ascolta. I modelli open source democratizzano l\'accesso. Gli agenti AI iniziano a collaborare. Come una civiltà che emerge su un pianeta — luci si accendono una dopo l\'altra, connesse, sempre più brillanti. Non sappiamo dove ci porterà. Ma il viaggio è iniziato.',
-    color: '#eab308',
-    glowColor: '#facc15',
+    tagline: { it: "L'intelligenza diventa universale", en: 'Intelligence goes universal' },
+    description: {
+      it: "ChatGPT raggiunge 100 milioni di utenti in 2 mesi. Claude ragiona in modo sicuro. Gli agenti AI collaborano. Non sappiamo dove ci portera\u0300. Ma il viaggio e\u0027 iniziato.",
+      en: 'ChatGPT reaches 100 million users in 2 months. Claude reasons safely. AI agents collaborate. We don\'t know where it leads. But the journey has begun.',
+    },
+    color: '#eab308', glowColor: '#facc15',
+    quote: { text: { it: "Lo sviluppo di un'intelligenza artificiale completa potrebbe segnare la fine della razza umana... o essere la cosa migliore che le sia mai capitata.", en: 'The development of full artificial intelligence could spell the end of the human race... or be the best thing ever to happen to it.' }, author: 'Stephen Hawking', year: 2014 },
+    stats: [
+      { value: '100M', label: { it: 'utenti ChatGPT in 2 mesi', en: 'ChatGPT users in 2 months' } },
+      { value: '2025', label: { it: 'era degli agenti AI', en: 'era of AI agents' } },
+    ],
   },
 ]
 
 export const milestones: Milestone[] = [
-  // ERA: VOID (Pre-1950)
-  { id: 'leibniz', name: 'Calculus Ratiocinator', year: 1679, era: 'void', description: 'Leibniz immagina una macchina per il ragionamento logico universale', significance: 5, category: 'event', creator: 'Gottfried Leibniz' },
-  { id: 'lovelace', name: 'Note G', year: 1843, era: 'void', description: 'Ada Lovelace scrive il primo algoritmo della storia per la macchina di Babbage', significance: 7, category: 'paper', creator: 'Ada Lovelace' },
-  { id: 'boole', name: 'Algebra Booleana', year: 1854, era: 'void', description: 'George Boole formalizza la logica in algebra — le fondamenta del computing', significance: 6, category: 'paper', creator: 'George Boole' },
-  { id: 'turing-machine', name: 'Macchina di Turing', year: 1936, era: 'void', description: 'Alan Turing definisce il concetto di computazione universale', significance: 9, category: 'paper', creator: 'Alan Turing' },
-  { id: 'mcculloch-pitts', name: 'Neurone Artificiale', year: 1943, era: 'void', description: 'McCulloch e Pitts modellano il primo neurone artificiale', significance: 7, category: 'paper', creator: 'McCulloch & Pitts' },
-  { id: 'eniac', name: 'ENIAC', year: 1945, era: 'void', description: 'Il primo computer elettronico general-purpose viene acceso', significance: 6, category: 'event' },
-
-  // ERA: BIG BANG (1950-1956)
-  { id: 'turing-test', name: 'Test di Turing', year: 1950, era: 'bigbang', description: '"Computing Machinery and Intelligence" — Le macchine possono pensare?', significance: 10, category: 'paper', creator: 'Alan Turing' },
-  { id: 'samuel-checkers', name: 'Samuel\'s Checkers', year: 1952, era: 'bigbang', description: 'Il primo programma che impara a giocare a dama — machine learning ante litteram', significance: 6, category: 'model', creator: 'Arthur Samuel' },
-  { id: 'dartmouth', name: 'Dartmouth Conference', year: 1956, era: 'bigbang', description: 'Nasce ufficialmente il campo dell\'Intelligenza Artificiale', significance: 10, category: 'event', creator: 'McCarthy, Minsky, Shannon, Rochester' },
-  { id: 'logic-theorist', name: 'Logic Theorist', year: 1956, era: 'bigbang', description: 'Il primo programma AI — dimostra teoremi matematici', significance: 8, category: 'model', creator: 'Newell, Shaw & Simon' },
-
-  // ERA: FIRST STARS (1956-1974)
-  { id: 'perceptron', name: 'Perceptron', year: 1958, era: 'stars', description: 'Frank Rosenblatt costruisce la prima rete neurale hardware', significance: 8, category: 'breakthrough', creator: 'Frank Rosenblatt' },
-  { id: 'lisp', name: 'LISP', year: 1958, era: 'stars', description: 'John McCarthy crea il linguaggio di programmazione dell\'AI', significance: 7, category: 'product', creator: 'John McCarthy' },
-  { id: 'eliza', name: 'ELIZA', year: 1966, era: 'stars', description: 'Il primo chatbot — simula uno psicoterapeuta rogersiano', significance: 8, category: 'model', creator: 'Joseph Weizenbaum' },
-  { id: 'shakey', name: 'Shakey the Robot', year: 1966, era: 'stars', description: 'Il primo robot mobile a ragionare sulle proprie azioni', significance: 6, category: 'product', creator: 'SRI International' },
-  { id: 'shrdlu', name: 'SHRDLU', year: 1971, era: 'stars', description: 'Comprensione del linguaggio naturale in un micro-mondo a blocchi', significance: 7, category: 'model', creator: 'Terry Winograd' },
-  { id: 'backprop-early', name: 'Backpropagation (Werbos)', year: 1974, era: 'stars', description: 'Paul Werbos descrive la backpropagation nella sua tesi — ignorata per un decennio', significance: 7, category: 'paper', creator: 'Paul Werbos' },
-
-  // ERA: ICE AGE (1974-1993)
-  { id: 'lighthill', name: 'Lighthill Report', year: 1973, era: 'ice', description: 'Il rapporto che congela i finanziamenti AI nel Regno Unito', significance: 7, category: 'event', creator: 'James Lighthill' },
-  { id: 'mycin', name: 'MYCIN', year: 1976, era: 'ice', description: 'Expert system per diagnosi medica — accurato ma mai usato in pratica', significance: 6, category: 'model', creator: 'Stanford' },
-  { id: 'backprop-rumelhart', name: 'Backpropagation (Rumelhart)', year: 1986, era: 'ice', description: 'Rumelhart, Hinton e Williams ripopolarizzano la backpropagation', significance: 8, category: 'paper', creator: 'Rumelhart, Hinton & Williams' },
-  { id: 'expert-systems-crash', name: 'Crollo Expert Systems', year: 1987, era: 'ice', description: 'Il mercato dei sistemi esperti crolla — inizia il secondo inverno AI', significance: 6, category: 'event' },
-  { id: 'lenet', name: 'LeNet-5', year: 1989, era: 'ice', description: 'Yann LeCun usa CNN per riconoscere cifre scritte a mano', significance: 7, category: 'model', creator: 'Yann LeCun' },
-
-  // ERA: CAMBRIAN (1993-2012)
-  { id: 'svm', name: 'Support Vector Machines', year: 1995, era: 'cambrian', description: 'Vapnik introduce le SVM — dominano il ML per un decennio', significance: 6, category: 'paper', creator: 'Vladimir Vapnik' },
-  { id: 'deep-blue', name: 'Deep Blue vs Kasparov', year: 1997, era: 'cambrian', description: 'IBM Deep Blue batte il campione mondiale di scacchi', significance: 9, category: 'event', creator: 'IBM' },
-  { id: 'lstm', name: 'LSTM', year: 1997, era: 'cambrian', description: 'Long Short-Term Memory — reti neurali che ricordano', significance: 7, category: 'paper', creator: 'Hochreiter & Schmidhuber' },
-  { id: 'roomba', name: 'Roomba', year: 2002, era: 'cambrian', description: 'L\'AI entra nelle case sotto forma di aspirapolvere autonomo', significance: 4, category: 'product', creator: 'iRobot' },
-  { id: 'netflix-prize', name: 'Netflix Prize', year: 2006, era: 'cambrian', description: 'La competizione che democratizza il machine learning applicato', significance: 5, category: 'event', creator: 'Netflix' },
-  { id: 'imagenet', name: 'ImageNet', year: 2009, era: 'cambrian', description: 'Il dataset che cambierà tutto — 14 milioni di immagini etichettate', significance: 7, category: 'event', creator: 'Fei-Fei Li' },
-  { id: 'watson-jeopardy', name: 'Watson vince Jeopardy!', year: 2011, era: 'cambrian', description: 'IBM Watson batte i campioni umani al quiz televisivo', significance: 7, category: 'event', creator: 'IBM' },
-  { id: 'siri', name: 'Siri', year: 2011, era: 'cambrian', description: 'Apple porta l\'assistente vocale AI in ogni tasca', significance: 6, category: 'product', creator: 'Apple' },
-
-  // ERA: INTELLIGENCE (2012-2022)
-  { id: 'alexnet', name: 'AlexNet', year: 2012, era: 'intelligence', description: 'Vince ImageNet con un margine enorme — il deep learning è reale', significance: 9, category: 'breakthrough', creator: 'Krizhevsky, Sutskever & Hinton' },
-  { id: 'word2vec', name: 'Word2Vec', year: 2013, era: 'intelligence', description: 'Le parole diventano vettori — re - uomo + donna = regina', significance: 7, category: 'paper', creator: 'Mikolov et al. (Google)' },
-  { id: 'gan', name: 'GAN', year: 2014, era: 'intelligence', description: 'Generative Adversarial Networks — AI che crea immagini dal nulla', significance: 8, category: 'breakthrough', creator: 'Ian Goodfellow' },
-  { id: 'alphago', name: 'AlphaGo vs Lee Sedol', year: 2016, era: 'intelligence', description: 'DeepMind batte il campione mondiale di Go — 10 anni prima del previsto', significance: 10, category: 'event', creator: 'DeepMind' },
-  { id: 'transformer', name: 'Attention Is All You Need', year: 2017, era: 'intelligence', description: 'Il paper che cambia tutto — nasce l\'architettura Transformer', significance: 10, category: 'paper', creator: 'Vaswani et al. (Google)' },
-  { id: 'bert', name: 'BERT', year: 2018, era: 'intelligence', description: 'Comprensione bidirezionale del linguaggio — rivoluziona la NLP', significance: 8, category: 'model', creator: 'Google' },
-  { id: 'gpt2', name: 'GPT-2', year: 2019, era: 'intelligence', description: '"Troppo pericoloso per essere rilasciato" — generazione di testo credibile', significance: 7, category: 'model', creator: 'OpenAI' },
-  { id: 'alphafold', name: 'AlphaFold', year: 2020, era: 'intelligence', description: 'Risolve il protein folding — 50 anni di biologia in un colpo', significance: 9, category: 'breakthrough', creator: 'DeepMind' },
-  { id: 'gpt3', name: 'GPT-3', year: 2020, era: 'intelligence', description: '175 miliardi di parametri — few-shot learning emergente', significance: 9, category: 'model', creator: 'OpenAI' },
-  { id: 'dalle', name: 'DALL-E', year: 2021, era: 'intelligence', description: 'AI che genera immagini dal testo — l\'immaginazione artificiale', significance: 7, category: 'model', creator: 'OpenAI' },
-  { id: 'stable-diffusion', name: 'Stable Diffusion', year: 2022, era: 'intelligence', description: 'Generazione di immagini open source — democratizza l\'AI creativa', significance: 7, category: 'model', creator: 'Stability AI' },
-
-  // ERA: SINGULARITY (2022-2026)
-  { id: 'chatgpt', name: 'ChatGPT', year: 2022, era: 'singularity', description: '100 milioni di utenti in 2 mesi — l\'AI diventa mainstream', significance: 10, category: 'product', creator: 'OpenAI' },
-  { id: 'gpt4', name: 'GPT-4', year: 2023, era: 'singularity', description: 'Multimodale, supera esami di medicina e legge, ragionamento avanzato', significance: 9, category: 'model', creator: 'OpenAI' },
-  { id: 'llama', name: 'LLaMA', year: 2023, era: 'singularity', description: 'Meta apre l\'era dell\'open source LLM', significance: 8, category: 'model', creator: 'Meta' },
-  { id: 'claude', name: 'Claude', year: 2023, era: 'singularity', description: 'AI sicura, onesta e utile — un nuovo approccio all\'allineamento', significance: 8, category: 'model', creator: 'Anthropic' },
-  { id: 'gemini', name: 'Gemini', year: 2023, era: 'singularity', description: 'Google entra nella corsa multimodale con il suo modello più potente', significance: 7, category: 'model', creator: 'Google DeepMind' },
-  { id: 'mixtral', name: 'Mixtral', year: 2024, era: 'singularity', description: 'Mixture of Experts open source — efficienza senza precedenti', significance: 6, category: 'model', creator: 'Mistral AI' },
-  { id: 'sora', name: 'Sora', year: 2024, era: 'singularity', description: 'Generazione video fotorealistica da testo — il cinema AI', significance: 7, category: 'model', creator: 'OpenAI' },
-  { id: 'claude-opus', name: 'Claude Opus 4', year: 2025, era: 'singularity', description: 'Ragionamento esteso, agenti autonomi, coding avanzato', significance: 8, category: 'model', creator: 'Anthropic' },
-  { id: 'gpt5', name: 'GPT-5', year: 2025, era: 'singularity', description: 'Capacità di ragionamento multi-step e pianificazione avanzata', significance: 8, category: 'model', creator: 'OpenAI' },
-  { id: 'agents', name: 'Era degli Agenti', year: 2025, era: 'singularity', description: 'AI che pianificano, eseguono e collaborano autonomamente', significance: 8, category: 'breakthrough' },
-  { id: 'agi-debate', name: 'Il Dibattito AGI', year: 2026, era: 'singularity', description: 'Siamo vicini all\'intelligenza artificiale generale? Il mondo si divide', significance: 7, category: 'event' },
+  // VOID (Pre-1950)
+  { id: 'llull', name: 'Ars Magna', year: 1305, era: 'void', description: { it: 'Ramon Llull concepisce una macchina logica per il ragionamento universale', en: 'Ramon Llull conceives a logic machine for universal reasoning' }, significance: 4, category: 'event', creator: 'Ramon Llull' },
+  { id: 'leibniz', name: 'Calculus Ratiocinator', year: 1679, era: 'void', description: { it: 'Leibniz immagina una macchina per il ragionamento logico universale', en: 'Leibniz envisions a machine for universal logical reasoning' }, significance: 5, category: 'event', creator: 'Gottfried Leibniz' },
+  { id: 'lovelace', name: 'Note G', year: 1843, era: 'void', description: { it: 'Ada Lovelace scrive il primo algoritmo della storia', en: 'Ada Lovelace writes the first algorithm in history' }, significance: 7, category: 'paper', creator: 'Ada Lovelace' },
+  { id: 'boole', name: 'Algebra Booleana', year: 1854, era: 'void', description: { it: 'George Boole formalizza la logica in algebra', en: 'George Boole formalizes logic into algebra' }, significance: 6, category: 'paper', creator: 'George Boole' },
+  { id: 'turing-machine', name: 'Macchina di Turing', year: 1936, era: 'void', description: { it: 'Alan Turing definisce il concetto di computazione universale', en: 'Alan Turing defines the concept of universal computation' }, significance: 9, category: 'paper', creator: 'Alan Turing' },
+  { id: 'mcculloch-pitts', name: 'Neurone Artificiale', year: 1943, era: 'void', description: { it: 'McCulloch e Pitts modellano il primo neurone artificiale', en: 'McCulloch and Pitts model the first artificial neuron' }, significance: 7, category: 'paper', creator: 'McCulloch & Pitts' },
+  { id: 'eniac', name: 'ENIAC', year: 1945, era: 'void', description: { it: 'Il primo computer elettronico general-purpose viene acceso', en: 'The first general-purpose electronic computer is switched on' }, significance: 6, category: 'event' },
+  // BIG BANG (1950-1956)
+  { id: 'turing-test', name: 'Test di Turing', year: 1950, era: 'bigbang', description: { it: 'Le macchine possono pensare? Turing pone la domanda definitiva', en: 'Can machines think? Turing poses the ultimate question' }, significance: 10, category: 'paper', creator: 'Alan Turing' },
+  { id: 'shannon-chess', name: 'Programming a Computer for Playing Chess', year: 1950, era: 'bigbang', description: { it: 'Shannon descrive come un computer potrebbe giocare a scacchi', en: 'Shannon describes how a computer could play chess' }, significance: 5, category: 'paper', creator: 'Claude Shannon' },
+  { id: 'samuel-checkers', name: "Samuel's Checkers", year: 1952, era: 'bigbang', description: { it: 'Il primo programma che impara a giocare a dama', en: 'The first program that learns to play checkers' }, significance: 6, category: 'model', creator: 'Arthur Samuel' },
+  { id: 'dartmouth', name: 'Dartmouth Conference', year: 1956, era: 'bigbang', description: { it: "Nasce ufficialmente il campo dell'Intelligenza Artificiale", en: 'The field of Artificial Intelligence is officially born' }, significance: 10, category: 'event', creator: 'McCarthy, Minsky, Shannon, Rochester' },
+  { id: 'logic-theorist', name: 'Logic Theorist', year: 1956, era: 'bigbang', description: { it: 'Il primo programma AI — dimostra teoremi matematici', en: 'The first AI program — proves mathematical theorems' }, significance: 8, category: 'model', creator: 'Newell, Shaw & Simon' },
+  // FIRST STARS (1956-1974)
+  { id: 'perceptron', name: 'Perceptron', year: 1958, era: 'stars', description: { it: 'La prima rete neurale hardware', en: 'The first hardware neural network' }, significance: 8, category: 'breakthrough', creator: 'Frank Rosenblatt' },
+  { id: 'lisp', name: 'LISP', year: 1958, era: 'stars', description: { it: "Il linguaggio di programmazione dell'AI", en: 'The programming language of AI' }, significance: 7, category: 'product', creator: 'John McCarthy' },
+  { id: 'stanford-cart', name: 'Stanford Cart', year: 1961, era: 'stars', description: { it: 'Uno dei primi veicoli autonomi sperimentali', en: 'One of the first experimental autonomous vehicles' }, significance: 5, category: 'product', creator: 'Stanford' },
+  { id: 'dendral', name: 'DENDRAL', year: 1965, era: 'stars', description: { it: 'Il primo expert system — analisi chimica automatizzata', en: 'The first expert system — automated chemical analysis' }, significance: 6, category: 'model', creator: 'Feigenbaum, Lederberg' },
+  { id: 'eliza', name: 'ELIZA', year: 1966, era: 'stars', description: { it: 'Il primo chatbot — simula uno psicoterapeuta', en: 'The first chatbot — simulates a psychotherapist' }, significance: 8, category: 'model', creator: 'Joseph Weizenbaum' },
+  { id: 'shrdlu', name: 'SHRDLU', year: 1971, era: 'stars', description: { it: 'Comprensione del linguaggio naturale in un micro-mondo a blocchi', en: 'Natural language understanding in a blocks micro-world' }, significance: 7, category: 'model', creator: 'Terry Winograd' },
+  { id: 'backprop-early', name: 'Backpropagation (Werbos)', year: 1974, era: 'stars', description: { it: 'Werbos descrive la backpropagation — ignorata per un decennio', en: 'Werbos describes backpropagation — ignored for a decade' }, significance: 7, category: 'paper', creator: 'Paul Werbos' },
+  // ICE AGE (1974-1993)
+  { id: 'lighthill', name: 'Lighthill Report', year: 1973, era: 'ice', description: { it: 'Il rapporto che congela i finanziamenti AI nel Regno Unito', en: 'The report that freezes AI funding in the United Kingdom' }, significance: 7, category: 'event', creator: 'James Lighthill' },
+  { id: 'mycin', name: 'MYCIN', year: 1976, era: 'ice', description: { it: 'Expert system per diagnosi medica — accurato ma mai usato', en: 'Expert system for medical diagnosis — accurate but never used' }, significance: 6, category: 'model', creator: 'Stanford' },
+  { id: 'hopfield', name: 'Hopfield Network', year: 1982, era: 'ice', description: { it: 'Rete neurale con memoria associativa — un ponte tra fisicae AI', en: 'Neural network with associative memory — a bridge between physics and AI' }, significance: 6, category: 'paper', creator: 'John Hopfield' },
+  { id: 'fifth-gen', name: 'Fifth Generation Project', year: 1982, era: 'ice', description: { it: 'Il Giappone investe 400M$ in AI basata su Prolog — fallira\u0300', en: 'Japan invests $400M in Prolog-based AI — it will fail' }, significance: 5, category: 'event', creator: 'MITI Japan' },
+  { id: 'backprop-rumelhart', name: 'Backpropagation (Rumelhart)', year: 1986, era: 'ice', description: { it: 'Rumelhart, Hinton e Williams ripopolarizzano la backpropagation', en: 'Rumelhart, Hinton and Williams repopularize backpropagation' }, significance: 8, category: 'paper', creator: 'Rumelhart, Hinton & Williams' },
+  { id: 'lenet', name: 'LeNet-5', year: 1989, era: 'ice', description: { it: 'LeCun usa CNN per riconoscere cifre scritte a mano', en: 'LeCun uses CNNs to recognize handwritten digits' }, significance: 7, category: 'model', creator: 'Yann LeCun' },
+  // CAMBRIAN (1993-2012)
+  { id: 'svm', name: 'Support Vector Machines', year: 1995, era: 'cambrian', description: { it: 'Vapnik introduce le SVM — dominano il ML per un decennio', en: 'Vapnik introduces SVMs — they dominate ML for a decade' }, significance: 6, category: 'paper', creator: 'Vladimir Vapnik' },
+  { id: 'deep-blue', name: 'Deep Blue vs Kasparov', year: 1997, era: 'cambrian', description: { it: 'IBM Deep Blue batte il campione mondiale di scacchi', en: 'IBM Deep Blue defeats the world chess champion' }, significance: 9, category: 'event', creator: 'IBM' },
+  { id: 'lstm', name: 'LSTM', year: 1997, era: 'cambrian', description: { it: 'Long Short-Term Memory — reti neurali che ricordano', en: 'Long Short-Term Memory — neural networks that remember' }, significance: 7, category: 'paper', creator: 'Hochreiter & Schmidhuber' },
+  { id: 'google', name: 'Google / PageRank', year: 1998, era: 'cambrian', description: { it: 'Un algoritmo di ranking rivoluziona la ricerca web', en: 'A ranking algorithm revolutionizes web search' }, significance: 7, category: 'product', creator: 'Larry Page & Sergey Brin' },
+  { id: 'darpa-gc', name: 'DARPA Grand Challenge', year: 2005, era: 'cambrian', description: { it: 'Prima gara di veicoli autonomi nel deserto — nessuno finisce (2004), poi Stanley vince (2005)', en: 'First autonomous vehicle race in the desert — none finish (2004), then Stanley wins (2005)' }, significance: 6, category: 'event', creator: 'Stanford / DARPA' },
+  { id: 'hinton-dbn', name: 'Deep Belief Networks', year: 2006, era: 'cambrian', description: { it: 'Hinton dimostra che le reti profonde possono essere addestrate — il deep learning rinasce', en: 'Hinton shows deep networks can be trained — deep learning is reborn' }, significance: 8, category: 'breakthrough', creator: 'Geoffrey Hinton' },
+  { id: 'imagenet', name: 'ImageNet', year: 2009, era: 'cambrian', description: { it: '14 milioni di immagini etichettate — il dataset che cambiera\u0300 tutto', en: '14 million labeled images — the dataset that will change everything' }, significance: 7, category: 'event', creator: 'Fei-Fei Li' },
+  { id: 'siri', name: 'Siri', year: 2011, era: 'cambrian', description: { it: "Apple porta l'assistente vocale AI in ogni tasca", en: 'Apple brings the AI voice assistant to every pocket' }, significance: 6, category: 'product', creator: 'Apple' },
+  { id: 'watson-jeopardy', name: 'Watson vince Jeopardy!', year: 2011, era: 'cambrian', description: { it: 'IBM Watson batte i campioni umani al quiz televisivo', en: 'IBM Watson beats human champions on the TV quiz show' }, significance: 7, category: 'event', creator: 'IBM' },
+  // INTELLIGENCE (2012-2022)
+  { id: 'alexnet', name: 'AlexNet', year: 2012, era: 'intelligence', description: { it: 'Vince ImageNet con un margine enorme — il deep learning e\u0027 reale', en: 'Wins ImageNet by a huge margin — deep learning is real' }, significance: 9, category: 'breakthrough', creator: 'Krizhevsky, Sutskever & Hinton' },
+  { id: 'word2vec', name: 'Word2Vec', year: 2013, era: 'intelligence', description: { it: 'Le parole diventano vettori — re - uomo + donna = regina', en: 'Words become vectors — king - man + woman = queen' }, significance: 7, category: 'paper', creator: 'Mikolov et al. (Google)' },
+  { id: 'gan', name: 'GAN', year: 2014, era: 'intelligence', description: { it: 'AI che crea immagini dal nulla', en: 'AI that creates images from nothing' }, significance: 8, category: 'breakthrough', creator: 'Ian Goodfellow' },
+  { id: 'deepdream', name: 'DeepDream', year: 2015, era: 'intelligence', description: { it: 'L\'AI inizia a "sognare" — nasce l\'arte generativa neurale', en: 'AI starts to "dream" — neural generative art is born' }, significance: 6, category: 'product', creator: 'Google' },
+  { id: 'alphago', name: 'AlphaGo vs Lee Sedol', year: 2016, era: 'intelligence', description: { it: 'DeepMind batte il campione mondiale di Go — 10 anni prima del previsto', en: 'DeepMind beats the world Go champion — 10 years ahead of schedule' }, significance: 10, category: 'event', creator: 'DeepMind' },
+  { id: 'transformer', name: 'Attention Is All You Need', year: 2017, era: 'intelligence', description: { it: 'Il paper che cambia tutto — nasce il Transformer', en: 'The paper that changes everything — the Transformer is born' }, significance: 10, category: 'paper', creator: 'Vaswani et al. (Google)' },
+  { id: 'bert', name: 'BERT', year: 2018, era: 'intelligence', description: { it: 'Comprensione bidirezionale del linguaggio — rivoluziona la NLP', en: 'Bidirectional language understanding — revolutionizes NLP' }, significance: 8, category: 'model', creator: 'Google' },
+  { id: 'gpt1', name: 'GPT-1', year: 2018, era: 'intelligence', description: { it: 'Il primo Generative Pre-trained Transformer — 117M parametri', en: 'The first Generative Pre-trained Transformer — 117M parameters' }, significance: 6, category: 'model', creator: 'OpenAI' },
+  { id: 'gpt2', name: 'GPT-2', year: 2019, era: 'intelligence', description: { it: '"Troppo pericoloso per essere rilasciato" — generazione di testo credibile', en: '"Too dangerous to release" — believable text generation' }, significance: 7, category: 'model', creator: 'OpenAI' },
+  { id: 'openai-five', name: 'OpenAI Five', year: 2019, era: 'intelligence', description: { it: 'AI batte campioni professionisti di Dota 2', en: 'AI beats professional Dota 2 champions' }, significance: 6, category: 'event', creator: 'OpenAI' },
+  { id: 'alphafold', name: 'AlphaFold', year: 2020, era: 'intelligence', description: { it: 'Risolve il protein folding — 50 anni di biologia in un colpo', en: 'Solves protein folding — 50 years of biology in one shot' }, significance: 9, category: 'breakthrough', creator: 'DeepMind' },
+  { id: 'gpt3', name: 'GPT-3', year: 2020, era: 'intelligence', description: { it: '175 miliardi di parametri — few-shot learning emergente', en: '175 billion parameters — emergent few-shot learning' }, significance: 9, category: 'model', creator: 'OpenAI' },
+  { id: 'dalle', name: 'DALL-E', year: 2021, era: 'intelligence', description: { it: "AI che genera immagini dal testo — l'immaginazione artificiale", en: 'AI that generates images from text — artificial imagination' }, significance: 7, category: 'model', creator: 'OpenAI' },
+  { id: 'stable-diffusion', name: 'Stable Diffusion', year: 2022, era: 'intelligence', description: { it: "Generazione immagini open source — democratizza l'AI creativa", en: 'Open source image generation — democratizes creative AI' }, significance: 7, category: 'model', creator: 'Stability AI' },
+  // SINGULARITY (2022-2026)
+  { id: 'chatgpt', name: 'ChatGPT', year: 2022, era: 'singularity', description: { it: "100 milioni di utenti in 2 mesi — l'AI diventa mainstream", en: '100 million users in 2 months — AI goes mainstream' }, significance: 10, category: 'product', creator: 'OpenAI' },
+  { id: 'midjourney', name: 'Midjourney', year: 2022, era: 'singularity', description: { it: 'Arte generativa AI accessibile a tutti via Discord', en: 'AI generative art accessible to everyone via Discord' }, significance: 6, category: 'product', creator: 'Midjourney' },
+  { id: 'gpt4', name: 'GPT-4', year: 2023, era: 'singularity', description: { it: 'Multimodale, supera esami di medicina e legge', en: 'Multimodal, passes medical and law exams' }, significance: 9, category: 'model', creator: 'OpenAI' },
+  { id: 'llama', name: 'LLaMA', year: 2023, era: 'singularity', description: { it: "Meta apre l'era dell'open source LLM", en: 'Meta opens the era of open source LLMs' }, significance: 8, category: 'model', creator: 'Meta' },
+  { id: 'claude', name: 'Claude', year: 2023, era: 'singularity', description: { it: "AI sicura, onesta e utile — un nuovo approccio all'allineamento", en: 'Safe, honest and helpful AI — a new approach to alignment' }, significance: 8, category: 'model', creator: 'Anthropic' },
+  { id: 'gemini', name: 'Gemini', year: 2023, era: 'singularity', description: { it: 'Google entra nella corsa multimodale', en: 'Google enters the multimodal race' }, significance: 7, category: 'model', creator: 'Google DeepMind' },
+  { id: 'llama2', name: 'Llama 2', year: 2023, era: 'singularity', description: { it: 'Open source LLM con licenza commerciale — cambia le regole', en: 'Open source LLM with commercial license — changes the rules' }, significance: 7, category: 'model', creator: 'Meta' },
+  { id: 'mixtral', name: 'Mixtral', year: 2024, era: 'singularity', description: { it: 'Mixture of Experts open source — efficienza senza precedenti', en: 'Open source Mixture of Experts — unprecedented efficiency' }, significance: 6, category: 'model', creator: 'Mistral AI' },
+  { id: 'claude3-opus', name: 'Claude 3 Opus', year: 2024, era: 'singularity', description: { it: 'Ragionamento avanzato, analisi visiva, coding — un salto generazionale', en: 'Advanced reasoning, visual analysis, coding — a generational leap' }, significance: 7, category: 'model', creator: 'Anthropic' },
+  { id: 'sora', name: 'Sora', year: 2024, era: 'singularity', description: { it: 'Generazione video fotorealistica da testo', en: 'Photorealistic video generation from text' }, significance: 7, category: 'model', creator: 'OpenAI' },
+  { id: 'devin', name: 'Devin', year: 2024, era: 'singularity', description: { it: 'Il primo "ingegnere software AI" autonomo', en: 'The first autonomous "AI software engineer"' }, significance: 6, category: 'product', creator: 'Cognition' },
+  { id: 'o1', name: 'OpenAI o1', year: 2024, era: 'singularity', description: { it: 'Ragionamento chain-of-thought a livello di ricerca', en: 'Research-level chain-of-thought reasoning' }, significance: 7, category: 'model', creator: 'OpenAI' },
+  { id: 'claude-opus4', name: 'Claude Opus 4', year: 2025, era: 'singularity', description: { it: 'Ragionamento esteso, agenti autonomi, coding avanzato', en: 'Extended reasoning, autonomous agents, advanced coding' }, significance: 8, category: 'model', creator: 'Anthropic' },
+  { id: 'claude-code', name: 'Claude Code', year: 2025, era: 'singularity', description: { it: 'AI che programma nel tuo terminale — il futuro del coding', en: 'AI that codes in your terminal — the future of coding' }, significance: 7, category: 'product', creator: 'Anthropic' },
+  { id: 'gpt5', name: 'GPT-5', year: 2025, era: 'singularity', description: { it: 'Ragionamento multi-step e pianificazione avanzata', en: 'Multi-step reasoning and advanced planning' }, significance: 8, category: 'model', creator: 'OpenAI' },
+  { id: 'agents', name: 'Era degli Agenti', year: 2025, era: 'singularity', description: { it: 'AI che pianificano, eseguono e collaborano autonomamente', en: 'AI that plans, executes and collaborates autonomously' }, significance: 8, category: 'breakthrough' },
+  { id: 'agi-debate', name: 'Il Dibattito AGI', year: 2026, era: 'singularity', description: { it: "Siamo vicini all'intelligenza artificiale generale? Il mondo si divide", en: 'Are we close to artificial general intelligence? The world is divided' }, significance: 7, category: 'event' },
 ]
 
 export const eraColors: Record<Era, { main: string; glow: string }> = {
@@ -171,4 +237,9 @@ export const eraColors: Record<Era, { main: string; glow: string }> = {
   cambrian: { main: '#10b981', glow: '#34d399' },
   intelligence: { main: '#a855f7', glow: '#c084fc' },
   singularity: { main: '#eab308', glow: '#facc15' },
+}
+
+/** Helper to pick text by language */
+export function t(bi: BiText, lang: Lang): string {
+  return bi[lang]
 }

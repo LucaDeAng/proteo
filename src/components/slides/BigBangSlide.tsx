@@ -1,7 +1,8 @@
 import { useCallback, useRef } from 'react'
 import { SlideWrapper, SlideTag, SlideTitle, SlideBody, MilestoneCard } from '../SlideWrapper'
 import { useCanvas } from '../canvas/useCanvas'
-import { eras, milestones } from '../../data/aiHistory'
+import { eras, milestones, t } from '../../data/aiHistory'
+import { useLang } from '../../hooks/useLang'
 
 interface BigBangSlideProps {
   active: boolean
@@ -52,6 +53,7 @@ function lerpColor(t: number): [number, number, number] {
 const NUM_PARTICLES = 200
 
 export default function BigBangSlide({ active, index }: BigBangSlideProps) {
+  const { lang } = useLang()
   const era = eras.find((e) => e.id === 'bigbang')!
   const turingTest = milestones.find((m) => m.id === 'turing-test')!
   const dartmouth = milestones.find((m) => m.id === 'dartmouth')!
@@ -232,7 +234,15 @@ export default function BigBangSlide({ active, index }: BigBangSlideProps) {
   )
 
   return (
-    <SlideWrapper index={index} active={active} canvas={canvasEl}>
+    <SlideWrapper
+      index={index}
+      active={active}
+      canvas={canvasEl}
+      chapter={era.chapter}
+      quote={t(era.quote.text, lang)}
+      quoteAuthor={`${era.quote.author}, ${era.quote.year}`}
+      stats={era.stats.map(s => ({ value: s.value, label: t(s.label, lang), color: era.glowColor }))}
+    >
       <div className="pl-8 sm:pl-16 md:pl-24 pr-6 max-w-3xl">
         <SlideTag>{era.period}</SlideTag>
         <SlideTitle>
@@ -244,24 +254,24 @@ export default function BigBangSlide({ active, index }: BigBangSlideProps) {
               backgroundClip: 'text',
             }}
           >
-            {era.name}
+            {t(era.name, lang)}
           </span>
           <span className="text-white/30 ml-3 text-2xl sm:text-3xl md:text-4xl font-light italic">
-            {era.cosmicName}
+            {t(era.cosmicName, lang)}
           </span>
         </SlideTitle>
-        <SlideBody>{era.description}</SlideBody>
+        <SlideBody>{t(era.description, lang)}</SlideBody>
 
         <MilestoneCard
           year={turingTest.year}
           name={turingTest.name}
-          description={turingTest.description}
+          description={t(turingTest.description, lang)}
           color={era.glowColor}
         />
         <MilestoneCard
           year={dartmouth.year}
           name={dartmouth.name}
-          description={dartmouth.description}
+          description={t(dartmouth.description, lang)}
           color={era.glowColor}
         />
       </div>
