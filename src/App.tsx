@@ -1,11 +1,15 @@
-import { useState, useCallback } from 'react'
+import { useState, useCallback, useEffect } from 'react'
 import { useActiveSlide } from './hooks/useActiveSlide'
+import { useAmbientAudio } from './hooks/useAmbientAudio'
 import { LangContext, type Lang } from './hooks/useLang'
 import { NavDots } from './components/NavDots'
 import { LangToggle } from './components/LangToggle'
+import { AudioToggle } from './components/AudioToggle'
 import { YearCounter } from './components/YearCounter'
 import { TimelineBar } from './components/TimelineBar'
+import { SlideProgress } from './components/SlideProgress'
 import { CursorGlow } from './components/CursorGlow'
+import { Preloader } from './components/Preloader'
 import HeroSlide from './components/slides/HeroSlide'
 import VoidSlide from './components/slides/VoidSlide'
 import BigBangSlide from './components/slides/BigBangSlide'
@@ -24,16 +28,27 @@ const TOTAL_SLIDES = 13
 
 function App() {
   const { activeSlide, scrollToSlide, containerRef } = useActiveSlide(TOTAL_SLIDES)
+  const { muted, toggleMute, setSlide } = useAmbientAudio()
   const [lang, setLang] = useState<Lang>('it')
+  const [loaded, setLoaded] = useState(false)
   const toggleLang = useCallback(() => setLang((l) => (l === 'it' ? 'en' : 'it')), [])
+
+  // Sync audio with active slide
+  useEffect(() => {
+    setSlide(activeSlide)
+  }, [activeSlide, setSlide])
 
   return (
     <LangContext.Provider value={{ lang, toggle: toggleLang }}>
+      {!loaded && <Preloader onComplete={() => setLoaded(true)} />}
+
       <CursorGlow />
       <LangToggle />
+      <AudioToggle muted={muted} onToggle={toggleMute} />
       <NavDots active={activeSlide} total={TOTAL_SLIDES} onNavigate={scrollToSlide} />
       <YearCounter activeSlide={activeSlide} />
       <TimelineBar activeSlide={activeSlide} totalSlides={TOTAL_SLIDES} />
+      <SlideProgress activeSlide={activeSlide} totalSlides={TOTAL_SLIDES} />
 
       <div ref={containerRef} className="scroll-container">
         <HeroSlide index={0} active={activeSlide === 0} />
