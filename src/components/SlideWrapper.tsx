@@ -50,11 +50,16 @@ export function SlideWrapper({
         </motion.span>
       )}
 
-      {/* Canvas background layer */}
+      {/* Canvas background layer — subtle zoom-in when active */}
       {canvas && (
-        <div className="absolute inset-0 z-0">
+        <motion.div
+          className="absolute inset-0 z-0"
+          initial={{ scale: 1.08, opacity: 0.3 }}
+          animate={active ? { scale: 1, opacity: 1 } : { scale: 1.08, opacity: 0.3 }}
+          transition={{ duration: 1.8, ease: [0.22, 1, 0.36, 1] }}
+        >
           {canvas}
-        </div>
+        </motion.div>
       )}
 
       {/* Content overlay */}
@@ -137,7 +142,40 @@ export function SlideTitle({ children, className = '' }: { children: ReactNode; 
   )
 }
 
+const wordVariants = {
+  hidden: { opacity: 0, y: 8, filter: 'blur(4px)' },
+  visible: (i: number) => ({
+    opacity: 1,
+    y: 0,
+    filter: 'blur(0px)',
+    transition: { delay: 0.3 + i * 0.03, duration: 0.4, ease: [0.22, 1, 0.36, 1] },
+  }),
+}
+
 export function SlideBody({ children }: { children: ReactNode }) {
+  // If children is a string, do word-by-word reveal
+  if (typeof children === 'string') {
+    const words = children.split(' ')
+    return (
+      <motion.p
+        variants={textVariants}
+        custom={2}
+        className="text-base sm:text-lg text-white/70 max-w-xl leading-relaxed"
+      >
+        {words.map((word, i) => (
+          <motion.span
+            key={i}
+            variants={wordVariants}
+            custom={i}
+            className="inline-block mr-[0.3em]"
+          >
+            {word}
+          </motion.span>
+        ))}
+      </motion.p>
+    )
+  }
+
   return (
     <motion.p
       variants={textVariants}

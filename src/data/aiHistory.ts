@@ -40,8 +40,8 @@ export const eras: EraInfo[] = [
     period: 'Pre-1950',
     tagline: { it: 'I sogni delle macchine pensanti', en: 'Dreams of thinking machines' },
     description: {
-      it: "Prima che l'intelligenza artificiale avesse un nome, visionari come Leibniz, Babbage e Ada Lovelace immaginavano macchine capaci di ragionare. Nel vuoto cosmico, la materia primordiale inizia ad aggregarsi.",
-      en: 'Before artificial intelligence had a name, visionaries like Leibniz, Babbage and Ada Lovelace imagined machines capable of reasoning. In the cosmic void, primordial matter begins to coalesce.',
+      it: "Leibniz, Babbage, Lovelace, Turing — visionari che sognarono macchine pensanti secoli prima che esistessero. Nel vuoto, la materia primordiale si aggrega.",
+      en: 'Leibniz, Babbage, Lovelace, Turing — visionaries who dreamed of thinking machines centuries before they existed. In the void, primordial matter coalesces.',
     },
     color: '#4c1d95', glowColor: '#7c3aed',
     quote: { text: { it: 'La questione se le macchine possano pensare... e\u0027 rilevante quanto chiedersi se i sottomarini possano nuotare.', en: 'The question of whether machines can think... is about as relevant as the question of whether submarines can swim.' }, author: 'Edsger Dijkstra', year: 1984 },
@@ -74,8 +74,8 @@ export const eras: EraInfo[] = [
     period: '1956 — 1974',
     tagline: { it: 'I primi programmi che "pensano"', en: 'The first programs that "think"' },
     description: {
-      it: "Come le prime stelle nell'universo giovane, i primi programmi AI illuminano il panorama: ELIZA simula uno psicoterapeuta, il Perceptron promette di imparare. L'ottimismo e\u0027 alle stelle.",
-      en: 'Like the first stars in the young universe, the first AI programs light up the landscape: ELIZA simulates a therapist, the Perceptron promises to learn. Optimism is sky-high.',
+      it: "ELIZA parla, il Perceptron impara. I primi programmi AI si accendono come stelle nell'universo giovane. L'ottimismo e' alle stelle.",
+      en: 'ELIZA talks, the Perceptron learns. The first AI programs ignite like stars in the young universe. Optimism is sky-high.',
     },
     color: '#ea580c', glowColor: '#f97316',
     quote: { text: { it: "ELIZA riusciva a produrre un'illusione di comprensione... fui sorpreso nel vedere quanto rapidamente le persone si coinvolgessero emotivamente.", en: 'ELIZA was able to produce an illusion of understanding... I was startled to see how quickly people became emotionally involved.' }, author: 'Joseph Weizenbaum', year: 1976 },
@@ -108,8 +108,8 @@ export const eras: EraInfo[] = [
     period: '1993 — 2012',
     tagline: { it: 'La diversita\u0300 esplode', en: 'Diversity explodes' },
     description: {
-      it: 'Internet porta dati. I dati portano possibilita\u0300. Deep Blue batte Kasparov. Hinton, LeCun, Bengio pongono le basi del deep learning — i tre che non si arresero durante l\'inverno.',
-      en: 'The Internet brings data. Data brings possibility. Deep Blue beats Kasparov. Hinton, LeCun, Bengio lay the foundations of deep learning — the three who never gave up during winter.',
+      it: 'Internet porta dati. Deep Blue batte Kasparov. Hinton, LeCun, Bengio non si arresero durante l\'inverno — e posano le basi del deep learning.',
+      en: 'The Internet brings data. Deep Blue beats Kasparov. Hinton, LeCun, Bengio never gave up during winter — and lay the foundations of deep learning.',
     },
     color: '#10b981', glowColor: '#34d399',
     quote: { text: { it: "Internet sta diventando la piazza del villaggio globale di domani.", en: 'The Internet is becoming the town square for the global village of tomorrow.' }, author: 'Bill Gates', year: 1999 },
@@ -142,8 +142,8 @@ export const eras: EraInfo[] = [
     period: '2022 — 2026',
     tagline: { it: "L'intelligenza diventa universale", en: 'Intelligence goes universal' },
     description: {
-      it: "ChatGPT raggiunge 100 milioni di utenti in 2 mesi. Claude ragiona in modo sicuro. Gli agenti AI collaborano. Non sappiamo dove ci portera\u0300. Ma il viaggio e\u0027 iniziato.",
-      en: 'ChatGPT reaches 100 million users in 2 months. Claude reasons safely. AI agents collaborate. We don\'t know where it leads. But the journey has begun.',
+      it: "ChatGPT: 100 milioni di utenti in 2 mesi. Claude ragiona. Gli agenti collaborano. Il viaggio e' appena iniziato.",
+      en: 'ChatGPT: 100 million users in 2 months. Claude reasons. Agents collaborate. The journey has just begun.',
     },
     color: '#eab308', glowColor: '#facc15',
     quote: { text: { it: "Lo sviluppo di un'intelligenza artificiale completa potrebbe segnare la fine della razza umana... o essere la cosa migliore che le sia mai capitata.", en: 'The development of full artificial intelligence could spell the end of the human race... or be the best thing ever to happen to it.' }, author: 'Stephen Hawking', year: 2014 },

@@ -3,6 +3,7 @@ import { motion } from 'framer-motion'
 import { SlideWrapper } from '../SlideWrapper'
 import { useCanvas } from '../canvas/useCanvas'
 import { useMouseParallax } from '../../hooks/useMouseParallax'
+import { useLang } from '../../hooks/useLang'
 
 interface HeroSlideProps {
   active: boolean
@@ -20,6 +21,7 @@ interface DustParticle {
 }
 
 export default function HeroSlide({ active, index }: HeroSlideProps) {
+  const { lang } = useLang()
   const mouse = useMouseParallax(active)
   const dustRef = useRef<DustParticle[]>([])
   const initedRef = useRef(false)
@@ -164,7 +166,7 @@ export default function HeroSlide({ active, index }: HeroSlideProps) {
           }}
           className="font-display text-lg sm:text-xl md:text-2xl text-white/70 tracking-[0.2em] uppercase mb-12"
         >
-          La Storia dell&apos;Intelligenza Artificiale
+          {lang === 'it' ? "La Storia dell'Intelligenza Artificiale" : 'The History of Artificial Intelligence'}
         </motion.p>
 
         {/* Scroll prompt */}
@@ -179,7 +181,7 @@ export default function HeroSlide({ active, index }: HeroSlideProps) {
           className="flex flex-col items-center gap-3"
         >
           <span className="text-white/40 text-sm tracking-[0.15em] uppercase">
-            Scrolla per viaggiare nel tempo
+            {lang === 'it' ? 'Scrolla per viaggiare nel tempo' : 'Scroll to travel through time'}
           </span>
           <motion.span
             animate={{ y: [0, 8, 0] }}

@@ -312,7 +312,7 @@ export default function GalaxyMapSlide({ active, index }: GalaxyMapSlideProps) {
           La Mappa dell&apos;Universo AI
         </h2>
         <p className="text-white/40 text-sm mt-2 font-mono tracking-wider">
-          {milestones.length} MILESTONES &middot; 1679 &ndash; 2026
+          {milestones.length} MILESTONES &middot; 1950 &ndash; 2026
         </p>
       </motion.div>
 

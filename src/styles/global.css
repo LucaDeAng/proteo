@@ -28,7 +28,7 @@ body {
 .scroll-container {
   height: 100vh;
   overflow-y: scroll;
-  scroll-snap-type: y mandatory;
+  scroll-snap-type: y proximity;
   -webkit-overflow-scrolling: touch;
 }
 
@@ -75,6 +75,32 @@ canvas.slide-canvas {
 ::selection {
   background: rgba(168, 85, 247, 0.4);
   color: #fff;
+}
+
+/* ── CINEMATIC OVERLAYS ── */
+
+/* Film grain — subtle noise texture for analog/cinema feel */
+.film-grain::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 9998;
+  pointer-events: none;
+  opacity: 0.035;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: 200px 200px;
+  mix-blend-mode: overlay;
+}
+
+/* Vignette — dark edges for cinematic framing */
+.vignette::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 9997;
+  pointer-events: none;
+  background: radial-gradient(ellipse at center, transparent 50%, rgba(0, 0, 0, 0.4) 100%);
 }
 
 /* Glow text effect for stat values */
