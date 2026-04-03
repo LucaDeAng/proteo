@@ -7,7 +7,7 @@ export function LangToggle() {
   return (
     <button
       onClick={toggle}
-      className="fixed top-6 left-6 z-50 flex items-center gap-1 px-3 py-1.5 rounded-full bg-white/5 backdrop-blur border border-white/10 cursor-pointer"
+      className="fixed top-4 left-4 md:top-6 md:left-6 z-50 flex items-center gap-1 px-3 py-1.5 rounded-full bg-white/5 backdrop-blur border border-white/10 cursor-pointer"
       aria-label="Toggle language"
     >
       <motion.span

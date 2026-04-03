@@ -44,7 +44,7 @@ export function SlideWrapper({
           initial={{ opacity: 0, scale: 0.85 }}
           animate={active ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.85 }}
           transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
-          className="absolute top-0 right-8 z-20 pointer-events-none select-none font-display text-[12rem] leading-none text-white/[0.03]"
+          className="absolute top-0 right-8 z-20 pointer-events-none select-none font-display text-[12rem] leading-none text-white/[0.03] hidden md:block"
         >
           {String(chapter).padStart(2, '0')}
         </motion.span>
@@ -192,7 +192,7 @@ export function MilestoneCard({ year, name, description, color }: { year: number
     <motion.div
       variants={textVariants}
       custom={3}
-      className="mt-6 flex gap-4 items-start p-4 rounded-xl bg-white/5 backdrop-blur-sm border border-white/10 max-w-lg milestone-card"
+      className="mt-6 flex gap-4 items-start p-4 rounded-xl bg-white/5 backdrop-blur-sm border border-white/10 max-w-[90vw] md:max-w-lg milestone-card"
     >
       <span className="font-mono text-sm shrink-0" style={{ color }}>{year}</span>
       <div>

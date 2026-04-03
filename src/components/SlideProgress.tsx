@@ -30,7 +30,7 @@ export function SlideProgress({ activeSlide, totalSlides }: SlideProgressProps) 
   if (activeSlide === 0 || activeSlide === totalSlides - 1) return null
 
   return (
-    <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-40 flex items-center gap-3 max-md:hidden">
+    <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-40 flex items-center gap-3">
       <AnimatePresence mode="wait">
         <motion.span
           key={activeSlide}
@@ -38,7 +38,7 @@ export function SlideProgress({ activeSlide, totalSlides }: SlideProgressProps) 
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -8 }}
           transition={{ duration: 0.3 }}
-          className="font-mono text-[11px] text-white/25"
+          className="font-mono text-[9px] md:text-[11px] text-white/25"
         >
           {num} / {total}
         </motion.span>
@@ -54,7 +54,7 @@ export function SlideProgress({ activeSlide, totalSlides }: SlideProgressProps) 
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -8 }}
               transition={{ duration: 0.3 }}
-              className="font-display text-[11px] text-white/20"
+              className="font-display text-[9px] md:text-[11px] text-white/20"
             >
               {name}
             </motion.span>

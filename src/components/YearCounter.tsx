@@ -10,7 +10,7 @@ export function YearCounter({ activeSlide }: YearCounterProps) {
   const year = SLIDE_YEARS[activeSlide] ?? null
 
   return (
-    <div className="fixed bottom-8 right-8 z-20 max-md:hidden">
+    <div className="fixed bottom-4 right-4 md:bottom-8 md:right-8 z-20">
       <AnimatePresence mode="wait">
         {year !== null && (
           <motion.span
@@ -19,7 +19,7 @@ export function YearCounter({ activeSlide }: YearCounterProps) {
             animate={{ y: 0, opacity: 1 }}
             exit={{ y: -30, opacity: 0 }}
             transition={{ duration: 0.5, ease: 'easeInOut' }}
-            className="block text-8xl font-mono text-white/[0.08] font-display select-none leading-none"
+            className="block text-5xl md:text-8xl font-mono text-white/[0.08] font-display select-none leading-none"
           >
             {year}
           </motion.span>

@@ -141,3 +141,10 @@ canvas.slide-canvas {
 .slide-gradient-bottom {
   background: linear-gradient(to top, var(--bg-void) 0%, transparent 30%);
 }
+
+/* Mobile touch improvements */
+@media (max-width: 768px) {
+  .scroll-container {
+    scroll-snap-type: y mandatory; /* back to mandatory on mobile for better feel */
+  }
+}
