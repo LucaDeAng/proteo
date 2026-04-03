@@ -66,6 +66,9 @@ const MODELS: ModelNode[] = [
   { id: 'sora', name: 'Sora', company: 'OpenAI', year: 2024, color: '#10b981',
     description: { it: 'Generazione video da testo', en: 'Video generation from text' },
     ancestors: ['neuron', 'backprop', 'lenet', 'gan', 'transformer', 'diffusion', 'scaling'] },
+  { id: 'mercury', name: 'Mercury', company: 'Inception Labs', year: 2025, color: '#06b6d4',
+    description: { it: 'Primo LLM a diffusione commerciale — genera token in parallelo, 10x piu\' veloce', en: 'First commercial diffusion LLM — generates tokens in parallel, 10x faster' },
+    ancestors: ['neuron', 'info-theory', 'backprop', 'transformer', 'diffusion', 'scaling'] },
 ]
 
 function hexToRgb(hex: string): [number, number, number] {
