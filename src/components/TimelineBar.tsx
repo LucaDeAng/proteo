@@ -9,9 +9,10 @@ const ERA_COLORS = [
   '#10b981',   // 5 Esplosione
   '#a855f7',   // 6 Intelligenza
   '#eab308',   // 7 Singolarita
-  '#c084fc',   // 8 I Numeri
-  '#8b5cf6',   // 9 La Mappa
-  '#ffffff',   // 10 Credits
+  '#34d399',   // 8 Genealogia
+  '#c084fc',   // 9 I Numeri
+  '#8b5cf6',   // 10 La Mappa
+  '#ffffff',   // 11 Credits
 ]
 
 interface TimelineBarProps {
