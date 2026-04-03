@@ -5,6 +5,7 @@ import { NavDots } from './components/NavDots'
 import { LangToggle } from './components/LangToggle'
 import { YearCounter } from './components/YearCounter'
 import { TimelineBar } from './components/TimelineBar'
+import { CursorGlow } from './components/CursorGlow'
 import HeroSlide from './components/slides/HeroSlide'
 import VoidSlide from './components/slides/VoidSlide'
 import BigBangSlide from './components/slides/BigBangSlide'
@@ -24,6 +25,7 @@ function App() {
 
   return (
     <LangContext.Provider value={{ lang, toggle: toggleLang }}>
+      <CursorGlow />
       <LangToggle />
       <NavDots active={activeSlide} total={TOTAL_SLIDES} onNavigate={scrollToSlide} />
       <YearCounter activeSlide={activeSlide} />

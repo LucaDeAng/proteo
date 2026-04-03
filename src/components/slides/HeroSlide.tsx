@@ -2,6 +2,7 @@ import { useCallback, useRef } from 'react'
 import { motion } from 'framer-motion'
 import { SlideWrapper } from '../SlideWrapper'
 import { useCanvas } from '../canvas/useCanvas'
+import { useMouseParallax } from '../../hooks/useMouseParallax'
 
 interface HeroSlideProps {
   active: boolean
@@ -19,6 +20,7 @@ interface DustParticle {
 }
 
 export default function HeroSlide({ active, index }: HeroSlideProps) {
+  const mouse = useMouseParallax(active)
   const dustRef = useRef<DustParticle[]>([])
   const initedRef = useRef(false)
 
@@ -124,7 +126,10 @@ export default function HeroSlide({ active, index }: HeroSlideProps) {
 
   return (
     <SlideWrapper index={index} active={active} canvas={canvasEl}>
-      <div className="flex flex-col items-center justify-center text-center px-4">
+      <div
+        className="flex flex-col items-center justify-center text-center px-4"
+        style={{ transform: `translate(${mouse.x * -15}px, ${mouse.y * -10}px)` }}
+      >
         {/* GENESIS title */}
         <motion.h1
           variants={{

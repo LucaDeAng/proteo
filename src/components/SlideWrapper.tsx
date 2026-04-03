@@ -75,7 +75,7 @@ export function SlideWrapper({
             <motion.blockquote
               variants={textVariants}
               custom={4}
-              className="mt-8 border-l-2 border-white/10 pl-4 max-w-md"
+              className="mt-8 border-l-2 border-white/10 pl-4 max-w-md quote-glow"
             >
               <p className="italic text-white/40 text-sm leading-relaxed">{quote}</p>
               <cite className="mt-2 block font-mono text-xs text-white/30 not-italic">
@@ -94,7 +94,7 @@ export function SlideWrapper({
               {stats.map((stat, i) => (
                 <span
                   key={i}
-                  className="inline-flex items-center gap-2 bg-white/5 border border-white/10 rounded-full px-3 py-1"
+                  className="inline-flex items-center gap-2 bg-white/5 border border-white/10 rounded-full px-3 py-1 stat-pill cursor-default"
                 >
                   <span
                     className="font-mono font-bold text-sm"
@@ -154,7 +154,7 @@ export function MilestoneCard({ year, name, description, color }: { year: number
     <motion.div
       variants={textVariants}
       custom={3}
-      className="mt-6 flex gap-4 items-start p-4 rounded-xl bg-white/5 backdrop-blur-sm border border-white/10 max-w-lg"
+      className="mt-6 flex gap-4 items-start p-4 rounded-xl bg-white/5 backdrop-blur-sm border border-white/10 max-w-lg milestone-card"
     >
       <span className="font-mono text-sm shrink-0" style={{ color }}>{year}</span>
       <div>
