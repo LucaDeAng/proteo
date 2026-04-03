@@ -1,10 +1,8 @@
-import { useState, useCallback, useEffect } from 'react'
+import { useState, useCallback } from 'react'
 import { useActiveSlide } from './hooks/useActiveSlide'
-import { useAmbientAudio } from './hooks/useAmbientAudio'
 import { LangContext, type Lang } from './hooks/useLang'
 import { NavDots } from './components/NavDots'
 import { LangToggle } from './components/LangToggle'
-import { AudioToggle } from './components/AudioToggle'
 import { YearCounter } from './components/YearCounter'
 import { TimelineBar } from './components/TimelineBar'
 import { SlideProgress } from './components/SlideProgress'
@@ -28,15 +26,9 @@ const TOTAL_SLIDES = 13
 
 function App() {
   const { activeSlide, scrollToSlide, containerRef } = useActiveSlide(TOTAL_SLIDES)
-  const { muted, toggleMute, setSlide } = useAmbientAudio()
   const [lang, setLang] = useState<Lang>('it')
   const [loaded, setLoaded] = useState(false)
   const toggleLang = useCallback(() => setLang((l) => (l === 'it' ? 'en' : 'it')), [])
-
-  // Sync audio with active slide
-  useEffect(() => {
-    setSlide(activeSlide)
-  }, [activeSlide, setSlide])
 
   return (
     <LangContext.Provider value={{ lang, toggle: toggleLang }}>
@@ -44,7 +36,6 @@ function App() {
 
       <CursorGlow />
       <LangToggle />
-      <AudioToggle muted={muted} onToggle={toggleMute} />
       <NavDots active={activeSlide} total={TOTAL_SLIDES} onNavigate={scrollToSlide} />
       <YearCounter activeSlide={activeSlide} />
       <TimelineBar activeSlide={activeSlide} totalSlides={TOTAL_SLIDES} />

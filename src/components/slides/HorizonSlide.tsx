@@ -40,12 +40,12 @@ export default function HorizonSlide({ active, index }: Props) {
   const stars = useMemo<FutureStar[]>(() => {
     // Arrange in a gentle arc across the screen
     return FUTURE_THEMES.map((theme, i) => {
-      const angle = -Math.PI * 0.15 + (i / (FUTURE_THEMES.length - 1)) * Math.PI * 0.3
-      const spread = 0.35
+      const col = i % 5
+      const row = Math.floor(i / 5)
       return {
         ...theme,
-        x: 0.5 + Math.cos(angle + Math.PI / 2) * spread * (0.7 + (i % 3) * 0.15),
-        y: 0.35 + Math.sin(angle) * 0.2 + (i % 2) * 0.08,
+        x: 0.12 + (col / 4) * 0.76 + (row % 2) * 0.08,
+        y: 0.12 + row * 0.14 + (i % 3) * 0.04,
         phase: i * 1.7,
       }
     })
@@ -161,8 +161,10 @@ export default function HorizonSlide({ active, index }: Props) {
         style={{ display: 'block' }}
       />
 
-      {/* Bottom text overlay */}
-      <div className="absolute inset-0 z-10 flex flex-col justify-end items-center pb-16 px-8 pointer-events-none">
+      {/* Bottom text overlay with gradient fade for readability */}
+      <div className="absolute bottom-0 left-0 right-0 z-10 flex flex-col items-center pb-12 pt-24 px-8 pointer-events-none"
+        style={{ background: 'linear-gradient(to top, #030014 0%, #030014 30%, transparent 100%)' }}
+      >
         <motion.p
           initial={{ opacity: 0, y: 20 }}
           animate={active ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
