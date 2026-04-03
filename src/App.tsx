@@ -1,5 +1,6 @@
 import { useState, useCallback, useMemo } from 'react'
 import { useActiveSlide } from './hooks/useActiveSlide'
+import { useScrollProgress } from './hooks/useScrollProgress'
 import { LangContext, type Lang } from './hooks/useLang'
 import { NavDots } from './components/NavDots'
 import { LangToggle } from './components/LangToggle'
@@ -8,6 +9,7 @@ import { YearCounter } from './components/YearCounter'
 import { TimelineBar } from './components/TimelineBar'
 import { SlideProgress } from './components/SlideProgress'
 import { CursorGlow } from './components/CursorGlow'
+import { TransitionParticles } from './components/TransitionParticles'
 import { Preloader } from './components/Preloader'
 import HeroSlide from './components/slides/HeroSlide'
 import VoidSlide from './components/slides/VoidSlide'
@@ -27,6 +29,7 @@ const TOTAL_SLIDES = 13
 
 function App() {
   const { activeSlide, scrollToSlide, containerRef } = useActiveSlide(TOTAL_SLIDES)
+  const scrollProgress = useScrollProgress(containerRef)
   const [lang, setLang] = useState<Lang>('it')
   const [loaded, setLoaded] = useState(false)
   const toggleLang = useCallback(() => setLang((l) => (l === 'it' ? 'en' : 'it')), [])
@@ -34,19 +37,19 @@ function App() {
   // Subtle ambient glow color that crossfades between eras
   const ambientColor = useMemo(() => {
     const colors = [
-      'rgba(76, 29, 149, 0.08)',   // 0 hero - deep purple
-      'rgba(76, 29, 149, 0.06)',   // 1 void - purple
-      'rgba(245, 158, 11, 0.06)',  // 2 bigbang - gold
-      'rgba(234, 88, 12, 0.05)',   // 3 stars - orange
-      'rgba(14, 165, 233, 0.06)',  // 4 ice - blue
-      'rgba(16, 185, 129, 0.05)',  // 5 cambrian - green
-      'rgba(168, 85, 247, 0.06)',  // 6 intelligence - purple
-      'rgba(234, 179, 8, 0.06)',   // 7 singularity - gold
-      'rgba(52, 211, 153, 0.04)',  // 8 lineage - teal
-      'rgba(232, 121, 249, 0.05)', // 9 horizon - pink
-      'rgba(192, 132, 252, 0.05)', // 10 numbers - violet
-      'rgba(139, 92, 246, 0.04)',  // 11 galaxy - indigo
-      'rgba(0, 0, 0, 0)',          // 12 credits - none
+      'rgba(76, 29, 149, 0.08)',   // 0 hero
+      'rgba(76, 29, 149, 0.06)',   // 1 void
+      'rgba(245, 158, 11, 0.06)',  // 2 bigbang
+      'rgba(234, 88, 12, 0.05)',   // 3 stars
+      'rgba(14, 165, 233, 0.06)',  // 4 ice
+      'rgba(16, 185, 129, 0.05)',  // 5 cambrian
+      'rgba(168, 85, 247, 0.06)',  // 6 intelligence
+      'rgba(234, 179, 8, 0.06)',   // 7 singularity
+      'rgba(52, 211, 153, 0.04)',  // 8 lineage
+      'rgba(232, 121, 249, 0.05)', // 9 horizon
+      'rgba(192, 132, 252, 0.05)', // 10 numbers
+      'rgba(139, 92, 246, 0.04)',  // 11 galaxy
+      'rgba(0, 0, 0, 0)',          // 12 credits
     ]
     return colors[activeSlide] || colors[0]
   }, [activeSlide])
@@ -55,11 +58,14 @@ function App() {
     <LangContext.Provider value={{ lang, toggle: toggleLang }}>
       {!loaded && <Preloader onComplete={() => setLoaded(true)} />}
 
-      {/* Ambient color glow that crossfades between eras */}
+      {/* Ambient color glow */}
       <div
         className="fixed inset-0 z-0 pointer-events-none transition-colors duration-[2000ms] ease-in-out"
         style={{ background: `radial-gradient(ellipse at 50% 40%, ${ambientColor}, transparent 70%)` }}
       />
+
+      {/* Persistent particles that shift color with scroll */}
+      <TransitionParticles scrollProgress={scrollProgress} totalSlides={TOTAL_SLIDES} />
 
       <CursorGlow />
       <LangToggle />

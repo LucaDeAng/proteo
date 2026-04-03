@@ -50,11 +50,16 @@ export function SlideWrapper({
         </motion.span>
       )}
 
-      {/* Canvas background layer */}
+      {/* Canvas background layer — subtle zoom-in when active */}
       {canvas && (
-        <div className="absolute inset-0 z-0">
+        <motion.div
+          className="absolute inset-0 z-0"
+          initial={{ scale: 1.08, opacity: 0.3 }}
+          animate={active ? { scale: 1, opacity: 1 } : { scale: 1.08, opacity: 0.3 }}
+          transition={{ duration: 1.8, ease: [0.22, 1, 0.36, 1] }}
+        >
           {canvas}
-        </div>
+        </motion.div>
       )}
 
       {/* Content overlay */}
