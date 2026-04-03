@@ -1,50 +1,64 @@
-import { useEffect } from 'react'
-import { Header } from './components/Header'
-import { ProteoChat } from './components/ProteoChat'
-import { WavyBackground } from './components/ui/wavy-background'
-import { dataUpdater } from './services/dataUpdater'
+import { useState, useCallback } from 'react'
+import { useActiveSlide } from './hooks/useActiveSlide'
+import { LangContext, type Lang } from './hooks/useLang'
+import { NavDots } from './components/NavDots'
+import { LangToggle } from './components/LangToggle'
+import { AmbientPlayer } from './components/AmbientPlayer'
+import { YearCounter } from './components/YearCounter'
+import { TimelineBar } from './components/TimelineBar'
+import { SlideProgress } from './components/SlideProgress'
+import { CursorGlow } from './components/CursorGlow'
+import { Preloader } from './components/Preloader'
+import HeroSlide from './components/slides/HeroSlide'
+import VoidSlide from './components/slides/VoidSlide'
+import BigBangSlide from './components/slides/BigBangSlide'
+import FirstStarsSlide from './components/slides/FirstStarsSlide'
+import IceAgeSlide from './components/slides/IceAgeSlide'
+import CambrianSlide from './components/slides/CambrianSlide'
+import IntelligenceSlide from './components/slides/IntelligenceSlide'
+import SingularitySlide from './components/slides/SingularitySlide'
+import LineageSlide from './components/slides/LineageSlide'
+import HorizonSlide from './components/slides/HorizonSlide'
+import NumbersSlide from './components/slides/NumbersSlide'
+import GalaxyMapSlide from './components/slides/GalaxyMapSlide'
+import CreditsSlide from './components/slides/CreditsSlide'
 
-/**
- * Main App component with marine gradient background
- * Componente App principale con sfondo gradient marino
- */
+const TOTAL_SLIDES = 13
+
 function App() {
-  // Initialize marine data updates / Inizializza aggiornamenti dati marini
-  useEffect(() => {
-    dataUpdater.start()
-    
-    return () => {
-      dataUpdater.stop()
-    }
-  }, [])
+  const { activeSlide, scrollToSlide, containerRef } = useActiveSlide(TOTAL_SLIDES)
+  const [lang, setLang] = useState<Lang>('it')
+  const [loaded, setLoaded] = useState(false)
+  const toggleLang = useCallback(() => setLang((l) => (l === 'it' ? 'en' : 'it')), [])
 
   return (
-    <WavyBackground
-      className=""
-      containerClassName="min-h-screen"
-      colors={[
-        "#0ea5e9", // sky-500 - bright ocean blue
-        "#0284c7", // sky-600 - deeper ocean
-        "#0369a1", // sky-700 - deep sea blue
-        "#38bdf8", // sky-400 - light ocean
-        "#22d3ee", // cyan-400 - tropical water
-        "#06b6d4", // cyan-500 - turquoise
-        "#0891b2", // cyan-600 - teal
-      ]}
-      waveWidth={50}
-      backgroundFill="rgb(240 249 255)" // sky-50
-      blur={10}
-      speed="slow"
-      waveOpacity={0.3}
-    >
-      <Header />
-      
-      <main className="relative z-10 py-8">
-        <div className="container mx-auto">
-          <ProteoChat />
-        </div>
-      </main>
-    </WavyBackground>
+    <LangContext.Provider value={{ lang, toggle: toggleLang }}>
+      {!loaded && <Preloader onComplete={() => setLoaded(true)} />}
+
+      <CursorGlow />
+      <LangToggle />
+      <AmbientPlayer />
+      <NavDots active={activeSlide} total={TOTAL_SLIDES} onNavigate={scrollToSlide} />
+      <YearCounter activeSlide={activeSlide} />
+      <TimelineBar activeSlide={activeSlide} totalSlides={TOTAL_SLIDES} />
+      <SlideProgress activeSlide={activeSlide} totalSlides={TOTAL_SLIDES} />
+
+      <div ref={containerRef} className="scroll-container">
+        <HeroSlide index={0} active={activeSlide === 0} />
+        <VoidSlide index={1} active={activeSlide === 1} />
+        <BigBangSlide index={2} active={activeSlide === 2} />
+        <FirstStarsSlide index={3} active={activeSlide === 3} />
+        <IceAgeSlide index={4} active={activeSlide === 4} />
+        <CambrianSlide index={5} active={activeSlide === 5} />
+        <IntelligenceSlide index={6} active={activeSlide === 6} />
+        <SingularitySlide index={7} active={activeSlide === 7} />
+        <LineageSlide index={8} active={activeSlide === 8} />
+        <HorizonSlide index={9} active={activeSlide === 9} />
+        <NumbersSlide index={10} active={activeSlide === 10} />
+        <GalaxyMapSlide index={11} active={activeSlide === 11} />
+        <CreditsSlide index={12} active={activeSlide === 12} />
+      </div>
+    </LangContext.Provider>
   )
 }
 
