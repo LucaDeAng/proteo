@@ -2,7 +2,7 @@ import { useState, useCallback, useMemo } from 'react'
 import { useActiveSlide } from './hooks/useActiveSlide'
 import { useScrollProgress } from './hooks/useScrollProgress'
 import { LangContext, type Lang } from './hooks/useLang'
-// NavDots removed — TimelineBar on left is sufficient
+import { ShootingStars } from './components/ShootingStars'
 import { LangToggle } from './components/LangToggle'
 import { AmbientPlayer } from './components/AmbientPlayer'
 import { YearCounter } from './components/YearCounter'
@@ -70,6 +70,9 @@ function App() {
 
       {/* Persistent particles that shift color with scroll */}
       <TransitionParticles scrollProgress={scrollProgress} scrollVelocity={scrollVelocity} totalSlides={TOTAL_SLIDES} />
+
+      {/* Shooting stars streaking across the sky */}
+      <ShootingStars />
 
       <CursorGlow />
       <LangToggle />
