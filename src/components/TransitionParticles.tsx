@@ -37,10 +37,11 @@ const PARTICLE_COUNT = 40
 
 interface TransitionParticlesProps {
   scrollProgress: number // 0-1 overall scroll
+  scrollVelocity: number // 0-1 normalized scroll speed
   totalSlides: number
 }
 
-export function TransitionParticles({ scrollProgress, totalSlides }: TransitionParticlesProps) {
+export function TransitionParticles({ scrollProgress, scrollVelocity, totalSlides }: TransitionParticlesProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const particlesRef = useRef<Particle[]>([])
   const rafRef = useRef(0)
@@ -104,9 +105,15 @@ export function TransitionParticles({ scrollProgress, totalSlides }: TransitionP
       const g = Math.round(colA[1] + (colB[1] - colA[1]) * slideFrac)
       const b = Math.round(colA[2] + (colB[2] - colA[2]) * slideFrac)
 
+      // Velocity amplifies movement and adds vertical drift
+      const vel = scrollVelocity
+      const speedMult = 1 + vel * 8 // particles move up to 9x faster when scrolling
+
       for (const p of particlesRef.current) {
-        p.x += p.vx + Math.sin(t * 0.3 + p.drift) * 0.0001
-        p.y += p.vy + Math.cos(t * 0.25 + p.drift) * 0.0001
+        p.x += (p.vx + Math.sin(t * 0.3 + p.drift) * 0.0001) * speedMult
+        p.y += (p.vy + Math.cos(t * 0.25 + p.drift) * 0.0001) * speedMult
+        // Scroll velocity pushes particles upward (scroll direction)
+        p.y -= vel * 0.004
 
         // Wrap
         if (p.x < 0) p.x = 1
@@ -115,12 +122,22 @@ export function TransitionParticles({ scrollProgress, totalSlides }: TransitionP
         if (p.y > 1) p.y = 0
 
         const twinkle = 0.5 + Math.sin(t * 1.5 + p.drift) * 0.5
-        const a = p.alpha * twinkle
+        // Particles get brighter and larger when scrolling fast
+        const a = p.alpha * twinkle * (1 + vel * 3)
+        const sz = p.size * (1 + vel * 2)
 
         ctx!.beginPath()
-        ctx!.arc(p.x * w, p.y * h, p.size, 0, Math.PI * 2)
-        ctx!.fillStyle = `rgba(${r}, ${g}, ${b}, ${a})`
+        ctx!.arc(p.x * w, p.y * h, sz, 0, Math.PI * 2)
+        ctx!.fillStyle = `rgba(${r}, ${g}, ${b}, ${Math.min(a, 0.6)})`
         ctx!.fill()
+
+        // Trail effect when scrolling fast
+        if (vel > 0.05) {
+          ctx!.beginPath()
+          ctx!.arc(p.x * w, (p.y + vel * 0.01) * h, sz * 0.6, 0, Math.PI * 2)
+          ctx!.fillStyle = `rgba(${r}, ${g}, ${b}, ${a * 0.3})`
+          ctx!.fill()
+        }
       }
 
       rafRef.current = requestAnimationFrame(loop)

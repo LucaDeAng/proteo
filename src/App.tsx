@@ -29,7 +29,7 @@ const TOTAL_SLIDES = 13
 
 function App() {
   const { activeSlide, scrollToSlide, containerRef } = useActiveSlide(TOTAL_SLIDES)
-  const scrollProgress = useScrollProgress(containerRef)
+  const { progress: scrollProgress, velocity: scrollVelocity } = useScrollProgress(containerRef)
   const [lang, setLang] = useState<Lang>('it')
   const [loaded, setLoaded] = useState(false)
   const toggleLang = useCallback(() => setLang((l) => (l === 'it' ? 'en' : 'it')), [])
@@ -56,6 +56,10 @@ function App() {
 
   return (
     <LangContext.Provider value={{ lang, toggle: toggleLang }}>
+      {/* Cinematic overlays */}
+      <div className="film-grain" />
+      <div className="vignette" />
+
       {!loaded && <Preloader onComplete={() => setLoaded(true)} />}
 
       {/* Ambient color glow */}
@@ -65,7 +69,7 @@ function App() {
       />
 
       {/* Persistent particles that shift color with scroll */}
-      <TransitionParticles scrollProgress={scrollProgress} totalSlides={TOTAL_SLIDES} />
+      <TransitionParticles scrollProgress={scrollProgress} scrollVelocity={scrollVelocity} totalSlides={TOTAL_SLIDES} />
 
       <CursorGlow />
       <LangToggle />
