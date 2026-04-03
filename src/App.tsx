@@ -15,11 +15,12 @@ import CambrianSlide from './components/slides/CambrianSlide'
 import IntelligenceSlide from './components/slides/IntelligenceSlide'
 import SingularitySlide from './components/slides/SingularitySlide'
 import LineageSlide from './components/slides/LineageSlide'
+import HorizonSlide from './components/slides/HorizonSlide'
 import NumbersSlide from './components/slides/NumbersSlide'
 import GalaxyMapSlide from './components/slides/GalaxyMapSlide'
 import CreditsSlide from './components/slides/CreditsSlide'
 
-const TOTAL_SLIDES = 12
+const TOTAL_SLIDES = 13
 
 function App() {
   const { activeSlide, scrollToSlide, containerRef } = useActiveSlide(TOTAL_SLIDES)
@@ -44,9 +45,10 @@ function App() {
         <IntelligenceSlide index={6} active={activeSlide === 6} />
         <SingularitySlide index={7} active={activeSlide === 7} />
         <LineageSlide index={8} active={activeSlide === 8} />
-        <NumbersSlide index={9} active={activeSlide === 9} />
-        <GalaxyMapSlide index={10} active={activeSlide === 10} />
-        <CreditsSlide index={11} active={activeSlide === 11} />
+        <HorizonSlide index={9} active={activeSlide === 9} />
+        <NumbersSlide index={10} active={activeSlide === 10} />
+        <GalaxyMapSlide index={11} active={activeSlide === 11} />
+        <CreditsSlide index={12} active={activeSlide === 12} />
       </div>
     </LangContext.Provider>
   )

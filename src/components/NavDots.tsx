@@ -10,6 +10,7 @@ const slideLabels = [
   'Intelligenza',
   'Singolarità',
   'Genealogia',
+  'L\'Orizzonte',
   'I Numeri',
   'La Mappa',
   'Credits',
