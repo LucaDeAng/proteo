@@ -25,8 +25,8 @@ export function TimelineBar({ activeSlide, totalSlides }: TimelineBarProps) {
   const progress = totalSlides > 1 ? activeSlide / (totalSlides - 1) : 0
 
   return (
-    <div className="fixed left-0 top-0 h-full z-40 flex items-center max-md:hidden">
-      <div className="relative ml-3 h-[70vh] w-[2px]">
+    <div className="fixed right-0 top-0 h-full z-40 flex items-center max-md:hidden">
+      <div className="relative mr-3 h-[70vh] w-[2px]">
         {/* Background track */}
         <div className="absolute inset-0 bg-white/10 rounded-full" />
 
