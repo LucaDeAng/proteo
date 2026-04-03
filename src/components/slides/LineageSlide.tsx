@@ -240,7 +240,7 @@ export default function LineageSlide({ active, index }: Props) {
 
   const canvasRef = useCanvas({ draw, active })
 
-  const handleMouseMove = useCallback((e: React.MouseEvent<HTMLCanvasElement>) => {
+  const handleMouseMove = useCallback((e: React.MouseEvent<HTMLElement>) => {
     const rect = e.currentTarget.getBoundingClientRect()
     const mx = e.clientX - rect.left
     const my = e.clientY - rect.top
@@ -348,11 +348,15 @@ export default function LineageSlide({ active, index }: Props) {
         </span>
       </motion.div>
 
-      {/* Canvas */}
+      {/* Canvas (no pointer events — scroll-safe) */}
       <canvas
         ref={canvasRef}
-        className="absolute inset-0 h-full w-full cursor-crosshair"
+        className="absolute inset-0 h-full w-full pointer-events-none"
         style={{ display: 'block' }}
+      />
+      {/* Transparent interaction overlay */}
+      <div
+        className="absolute inset-0 z-10 cursor-crosshair"
         onMouseMove={handleMouseMove}
         onMouseLeave={handleMouseLeave}
       />

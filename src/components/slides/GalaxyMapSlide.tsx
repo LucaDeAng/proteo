@@ -248,7 +248,7 @@ export default function GalaxyMapSlide({ active, index }: GalaxyMapSlideProps) {
   const canvasRef = useCanvas({ draw, active })
 
   const handleMouseMove = useCallback(
-    (e: React.MouseEvent<HTMLCanvasElement>) => {
+    (e: React.MouseEvent<HTMLElement>) => {
       const rect = e.currentTarget.getBoundingClientRect()
       const mx = e.clientX - rect.left
       const my = e.clientY - rect.top
@@ -278,11 +278,16 @@ export default function GalaxyMapSlide({ active, index }: GalaxyMapSlideProps) {
       data-slide={index}
       className="relative h-screen w-full flex-shrink-0 snap-start overflow-hidden"
     >
-      {/* Canvas */}
+      {/* Canvas (no pointer events — scroll-safe) */}
       <canvas
         ref={canvasRef}
-        className="absolute inset-0 h-full w-full"
-        style={{ display: 'block', cursor: hovered ? 'pointer' : 'crosshair' }}
+        className="absolute inset-0 h-full w-full pointer-events-none"
+        style={{ display: 'block' }}
+      />
+      {/* Transparent interaction overlay */}
+      <div
+        className="absolute inset-0 z-10"
+        style={{ cursor: hovered ? 'pointer' : 'crosshair' }}
         onMouseMove={handleMouseMove}
         onMouseLeave={handleMouseLeave}
       />
