@@ -3,6 +3,7 @@ import { useActiveSlide } from './hooks/useActiveSlide'
 import { LangContext, type Lang } from './hooks/useLang'
 import { NavDots } from './components/NavDots'
 import { LangToggle } from './components/LangToggle'
+import { AmbientPlayer } from './components/AmbientPlayer'
 import { YearCounter } from './components/YearCounter'
 import { TimelineBar } from './components/TimelineBar'
 import { SlideProgress } from './components/SlideProgress'
@@ -36,6 +37,7 @@ function App() {
 
       <CursorGlow />
       <LangToggle />
+      <AmbientPlayer />
       <NavDots active={activeSlide} total={TOTAL_SLIDES} onNavigate={scrollToSlide} />
       <YearCounter activeSlide={activeSlide} />
       <TimelineBar activeSlide={activeSlide} totalSlides={TOTAL_SLIDES} />
