@@ -2,7 +2,7 @@ import { useState, useCallback, useMemo } from 'react'
 import { useActiveSlide } from './hooks/useActiveSlide'
 import { useScrollProgress } from './hooks/useScrollProgress'
 import { LangContext, type Lang } from './hooks/useLang'
-import { NavDots } from './components/NavDots'
+// NavDots removed — TimelineBar on left is sufficient
 import { LangToggle } from './components/LangToggle'
 import { AmbientPlayer } from './components/AmbientPlayer'
 import { YearCounter } from './components/YearCounter'
@@ -28,7 +28,7 @@ import CreditsSlide from './components/slides/CreditsSlide'
 const TOTAL_SLIDES = 13
 
 function App() {
-  const { activeSlide, scrollToSlide, containerRef } = useActiveSlide(TOTAL_SLIDES)
+  const { activeSlide, containerRef } = useActiveSlide(TOTAL_SLIDES)
   const { progress: scrollProgress, velocity: scrollVelocity } = useScrollProgress(containerRef)
   const [lang, setLang] = useState<Lang>('it')
   const [loaded, setLoaded] = useState(false)
@@ -74,7 +74,6 @@ function App() {
       <CursorGlow />
       <LangToggle />
       <AmbientPlayer />
-      <NavDots active={activeSlide} total={TOTAL_SLIDES} onNavigate={scrollToSlide} />
       <YearCounter activeSlide={activeSlide} />
       <TimelineBar activeSlide={activeSlide} totalSlides={TOTAL_SLIDES} />
       <SlideProgress activeSlide={activeSlide} totalSlides={TOTAL_SLIDES} />
