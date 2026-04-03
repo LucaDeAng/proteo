@@ -51,7 +51,7 @@ function BigCounter({ value, suffix = '', active, duration = 2000, color }: Coun
 export default function NumbersSlide({ active, index }: Props) {
   const { lang } = useLang()
 
-  const totalYears = new Date().getFullYear() - 1679
+  const totalYears = new Date().getFullYear() - 1950 // AI moderna dal Test di Turing
   const totalMilestones = milestones.length
   const totalEras = eras.length
   const latestYear = Math.max(...milestones.map(m => m.year))
@@ -61,7 +61,7 @@ export default function NumbersSlide({ active, index }: Props) {
       value: totalYears,
       suffix: '',
       color: '#c084fc',
-      label: { it: 'anni di storia', en: 'years of history' },
+      label: { it: 'anni di AI moderna', en: 'years of modern AI' },
       delay: 0,
     },
     {
@@ -156,8 +156,8 @@ export default function NumbersSlide({ active, index }: Props) {
           className="text-white/30 text-sm text-center max-w-lg italic"
         >
           {lang === 'it'
-            ? '"In meno di un secolo, da un\'idea su carta a un\'intelligenza che scrive, vede, ragiona. Dove ci portera?"'
-            : '"In less than a century, from an idea on paper to an intelligence that writes, sees, reasons. Where will it take us?"'
+            ? '"In 76 anni, da una domanda su un foglio di carta a un\'intelligenza che scrive, vede, ragiona e agisce. Dove ci portera?"'
+            : '"In 76 years, from a question on a piece of paper to an intelligence that writes, sees, reasons and acts. Where will it take us?"'
           }
         </motion.p>
       </div>

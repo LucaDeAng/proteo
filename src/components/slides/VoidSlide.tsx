@@ -178,15 +178,15 @@ export default function VoidSlide({ active, index }: VoidSlideProps) {
         <SlideBody>{t(era.description, lang)}</SlideBody>
 
         <MilestoneCard
-          year={turingMachine.year}
-          name={turingMachine.name}
-          description={t(turingMachine.description, lang)}
-          color={era.glowColor}
-        />
-        <MilestoneCard
           year={lovelace.year}
           name={lovelace.name}
           description={t(lovelace.description, lang)}
+          color={era.glowColor}
+        />
+        <MilestoneCard
+          year={turingMachine.year}
+          name={turingMachine.name}
+          description={t(turingMachine.description, lang)}
           color={era.glowColor}
         />
       </div>
