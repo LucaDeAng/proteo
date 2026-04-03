@@ -30,7 +30,6 @@ interface DiscoveryNode {
 
 const DISCOVERIES: DiscoveryNode[] = [
   { id: 'neuron', name: 'Neurone Artificiale', year: 1943, color: '#7c3aed', description: { it: 'McCulloch & Pitts — il primo modello matematico di neurone', en: 'McCulloch & Pitts — the first mathematical neuron model' } },
-  { id: 'info-theory', name: 'Teoria Informazione', year: 1948, color: '#7c3aed', description: { it: 'Shannon — la matematica della comunicazione digitale', en: 'Shannon — the mathematics of digital communication' } },
   { id: 'perceptron', name: 'Perceptron', year: 1958, color: '#f97316', description: { it: 'Rosenblatt — la prima rete neurale hardware', en: 'Rosenblatt — the first hardware neural network' } },
   { id: 'backprop', name: 'Backpropagation', year: 1986, color: '#38bdf8', description: { it: 'Rumelhart, Hinton & Williams — l\'algoritmo che addestra le reti', en: 'Rumelhart, Hinton & Williams — the algorithm that trains networks' } },
   { id: 'lenet', name: 'LeNet / CNN', year: 1989, color: '#38bdf8', description: { it: 'LeCun — reti convoluzionali per il riconoscimento visivo', en: 'LeCun — convolutional networks for visual recognition' } },
@@ -44,31 +43,33 @@ const DISCOVERIES: DiscoveryNode[] = [
   { id: 'scaling', name: 'Scaling Laws', year: 2020, color: '#facc15', description: { it: 'Kaplan et al. — piu\' dati e parametri = piu\' intelligenza', en: 'Kaplan et al. — more data and parameters = more intelligence' } },
 ]
 
+// Ancestors = DIRECT technical dependencies only, not generic foundations.
+// Rule: if removing that discovery would fundamentally change this model, it's an ancestor.
 const MODELS: ModelNode[] = [
   { id: 'gpt4', name: 'GPT-4', company: 'OpenAI', year: 2023, color: '#10b981',
     description: { it: 'Multimodale, ragionamento avanzato', en: 'Multimodal, advanced reasoning' },
-    ancestors: ['neuron', 'info-theory', 'perceptron', 'backprop', 'lstm', 'transformer', 'scaling', 'rlhf'] },
+    ancestors: ['transformer', 'scaling', 'rlhf', 'backprop'] },
   { id: 'claude', name: 'Claude Opus 4', company: 'Anthropic', year: 2025, color: '#f59e0b',
     description: { it: 'AI sicura con ragionamento esteso', en: 'Safe AI with extended reasoning' },
-    ancestors: ['neuron', 'info-theory', 'backprop', 'transformer', 'scaling', 'rlhf'] },
+    ancestors: ['transformer', 'rlhf', 'scaling', 'backprop'] },
   { id: 'gemini', name: 'Gemini', company: 'Google', year: 2023, color: '#3b82f6',
     description: { it: 'Nativo multimodale da Google', en: 'Natively multimodal by Google' },
-    ancestors: ['neuron', 'info-theory', 'backprop', 'lenet', 'imagenet', 'alexnet', 'transformer', 'scaling'] },
+    ancestors: ['transformer', 'scaling', 'lenet', 'imagenet', 'backprop'] },
   { id: 'llama', name: 'Llama 3', company: 'Meta', year: 2024, color: '#8b5cf6',
     description: { it: 'Open source, prestazioni top', en: 'Open source, top performance' },
-    ancestors: ['neuron', 'info-theory', 'backprop', 'transformer', 'scaling', 'rlhf'] },
+    ancestors: ['transformer', 'scaling', 'rlhf', 'backprop'] },
   { id: 'mistral', name: 'Mixtral', company: 'Mistral', year: 2024, color: '#ef4444',
     description: { it: 'Mixture of Experts, ultra efficiente', en: 'Mixture of Experts, ultra efficient' },
-    ancestors: ['neuron', 'info-theory', 'backprop', 'transformer', 'scaling'] },
+    ancestors: ['transformer', 'scaling', 'backprop'] },
   { id: 'sd3', name: 'Stable Diffusion 3', company: 'Stability', year: 2024, color: '#ec4899',
     description: { it: 'Generazione immagini open source', en: 'Open source image generation' },
-    ancestors: ['neuron', 'backprop', 'lenet', 'imagenet', 'alexnet', 'gan', 'diffusion'] },
-  { id: 'sora', name: 'Sora', company: 'OpenAI', year: 2024, color: '#10b981',
+    ancestors: ['diffusion', 'lenet', 'imagenet', 'alexnet', 'backprop'] },
+  { id: 'sora', name: 'Sora', company: 'OpenAI', year: 2024, color: '#22c55e',
     description: { it: 'Generazione video da testo', en: 'Video generation from text' },
-    ancestors: ['neuron', 'backprop', 'lenet', 'gan', 'transformer', 'diffusion', 'scaling'] },
+    ancestors: ['diffusion', 'transformer', 'lenet', 'scaling', 'backprop'] },
   { id: 'mercury', name: 'Mercury', company: 'Inception Labs', year: 2025, color: '#06b6d4',
-    description: { it: 'Primo LLM a diffusione commerciale — genera token in parallelo, 10x piu\' veloce', en: 'First commercial diffusion LLM — generates tokens in parallel, 10x faster' },
-    ancestors: ['neuron', 'info-theory', 'backprop', 'transformer', 'diffusion', 'scaling'] },
+    description: { it: 'Primo LLM a diffusione — genera token in parallelo, 10x piu\' veloce', en: 'First diffusion LLM — generates tokens in parallel, 10x faster' },
+    ancestors: ['diffusion', 'transformer', 'scaling', 'backprop'] },
 ]
 
 function hexToRgb(hex: string): [number, number, number] {
@@ -84,18 +85,20 @@ export default function LineageSlide({ active, index }: Props) {
 
   // Pre-calculate positions
   const modelPositions = useMemo(() => {
+    const pad = 0.06 // padding from edges
     return MODELS.map((m, i) => ({
       ...m,
-      fx: (i + 0.5) / MODELS.length, // fractional x (0-1)
-      fy: 0.12, // top area
+      fx: pad + (i / (MODELS.length - 1)) * (1 - pad * 2),
+      fy: 0.2, // below title area
     }))
   }, [])
 
   const discoveryPositions = useMemo(() => {
+    const pad = 0.04
     return DISCOVERIES.map((d, i) => ({
       ...d,
-      fx: (i + 0.5) / DISCOVERIES.length,
-      fy: 0.82, // bottom area
+      fx: pad + (i / (DISCOVERIES.length - 1)) * (1 - pad * 2),
+      fy: 0.82,
     }))
   }, [])
 
