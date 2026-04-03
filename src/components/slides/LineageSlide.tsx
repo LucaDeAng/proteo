@@ -32,47 +32,28 @@ interface DiscoveryNode {
 }
 
 // ── DISCOVERIES ──────────────────────────────────────────
-// tier: foundation (bottom row), bridge (middle), technique (middle)
+// Reduced to 10 key discoveries — only those that DIFFERENTIATE models
 const DISCOVERIES: DiscoveryNode[] = [
-  // Foundations (bottom row)
-  { id: 'backprop', name: 'Backpropagation', year: 1986, color: '#38bdf8', tier: 'foundation',
+  { id: 'backprop', name: 'Backprop', year: 1986, color: '#64748b', tier: 'foundation',
     description: { it: "L'algoritmo che addestra tutte le reti neurali", en: 'The algorithm that trains all neural networks' } },
-  { id: 'lstm', name: 'LSTM', year: 1997, color: '#34d399', tier: 'foundation',
-    description: { it: 'Memoria a lungo termine — precursore della sequenzialita\' nei Transformer', en: 'Long-term memory — precursor of sequentiality in Transformers' } },
-  { id: 'imagenet', name: 'ImageNet', year: 2009, color: '#34d399', tier: 'foundation',
-    description: { it: '14M immagini etichettate — ha reso possibile il deep learning visivo', en: '14M labeled images — made visual deep learning possible' } },
-  { id: 'alexnet', name: 'AlexNet', year: 2012, color: '#c084fc', tier: 'foundation',
-    description: { it: 'Ha dimostrato che il deep learning funziona su scala', en: 'Proved deep learning works at scale' } },
-
-  // Bridge discoveries (middle row — connect foundations to models)
-  { id: 'vae', name: 'VAE', year: 2013, color: '#a78bfa', tier: 'bridge',
-    description: { it: 'Kingma — spazio latente per la generazione', en: 'Kingma — latent space for generation' } },
-  { id: 'resnet', name: 'ResNet', year: 2015, color: '#a78bfa', tier: 'bridge',
-    description: { it: 'Connessioni residuali — usate in ogni Transformer', en: 'Residual connections — used in every Transformer' } },
-  { id: 'transformer', name: 'Transformer', year: 2017, color: '#f59e0b', tier: 'bridge',
-    description: { it: 'Vaswani et al. — Attention Is All You Need', en: 'Vaswani et al. — Attention Is All You Need' } },
-  { id: 'moe', name: 'MoE', year: 2017, color: '#f59e0b', tier: 'bridge',
-    description: { it: 'Shazeer — esperti multipli, attivazione sparsa', en: 'Shazeer — multiple experts, sparse activation' } },
-  { id: 'scaling', name: 'Scaling Laws', year: 2020, color: '#facc15', tier: 'bridge',
-    description: { it: 'Kaplan et al. — piu\' compute = piu\' intelligenza', en: 'Kaplan et al. — more compute = more intelligence' } },
-  { id: 'diffusion', name: 'Diffusion', year: 2020, color: '#facc15', tier: 'bridge',
-    description: { it: 'DDPM — generazione tramite denoising iterativo', en: 'DDPM — generation through iterative denoising' } },
-  { id: 'vit', name: 'ViT', year: 2020, color: '#facc15', tier: 'bridge',
+  { id: 'vae', name: 'VAE', year: 2013, color: '#a78bfa', tier: 'foundation',
+    description: { it: 'Spazio latente per la generazione', en: 'Latent space for generation' } },
+  { id: 'transformer', name: 'Transformer', year: 2017, color: '#f59e0b', tier: 'foundation',
+    description: { it: 'Attention Is All You Need — l\'architettura universale', en: 'Attention Is All You Need — the universal architecture' } },
+  { id: 'moe', name: 'MoE', year: 2017, color: '#06b6d4', tier: 'foundation',
+    description: { it: 'Mixture of Experts — attivazione sparsa, piu\' efficienza', en: 'Mixture of Experts — sparse activation, more efficiency' } },
+  { id: 'scaling', name: 'Scaling Laws', year: 2020, color: '#facc15', tier: 'foundation',
+    description: { it: 'Piu\' compute e dati = piu\' intelligenza', en: 'More compute and data = more intelligence' } },
+  { id: 'diffusion', name: 'Diffusion', year: 2020, color: '#e879f9', tier: 'foundation',
+    description: { it: 'Generazione iterativa tramite denoising', en: 'Iterative generation through denoising' } },
+  { id: 'vit', name: 'ViT', year: 2020, color: '#34d399', tier: 'foundation',
     description: { it: 'Vision Transformer — patch visive come token', en: 'Vision Transformer — visual patches as tokens' } },
-  { id: 'rlhf', name: 'RLHF', year: 2020, color: '#facc15', tier: 'bridge',
-    description: { it: 'Allineamento AI tramite feedback umano', en: 'AI alignment through human feedback' } },
-  { id: 'clip', name: 'CLIP', year: 2021, color: '#e879f9', tier: 'technique',
-    description: { it: 'OpenAI — allineamento testo-immagine per il conditioning', en: 'OpenAI — text-image alignment for conditioning' } },
-  { id: 'rope', name: 'RoPE', year: 2021, color: '#e879f9', tier: 'technique',
-    description: { it: 'Codifica posizionale rotazionale per contesti lunghi', en: 'Rotary positional encoding for long contexts' } },
-  { id: 'ldm', name: 'Latent Diffusion', year: 2022, color: '#e879f9', tier: 'technique',
-    description: { it: 'Rombach — diffusione nello spazio latente (via VAE)', en: 'Rombach — diffusion in latent space (via VAE)' } },
-  { id: 'constitutional', name: 'Constitutional AI', year: 2022, color: '#e879f9', tier: 'technique',
-    description: { it: 'Anthropic — allineamento con feedback AI guidato da principi', en: 'Anthropic — alignment with principle-guided AI feedback' } },
+  { id: 'rlhf', name: 'RLHF', year: 2020, color: '#fb923c', tier: 'foundation',
+    description: { it: 'Allineamento AI con feedback umano', en: 'AI alignment with human feedback' } },
+  { id: 'clip', name: 'CLIP', year: 2021, color: '#f472b6', tier: 'technique',
+    description: { it: 'Allineamento testo-immagine per il conditioning', en: 'Text-image alignment for conditioning' } },
   { id: 'dit', name: 'DiT', year: 2023, color: '#fb923c', tier: 'technique',
-    description: { it: 'Diffusion Transformer — sostituisce U-Net con Transformer', en: 'Diffusion Transformer — replaces U-Net with Transformer' } },
-  { id: 'gqa', name: 'GQA', year: 2023, color: '#fb923c', tier: 'technique',
-    description: { it: 'Grouped-Query Attention per inferenza efficiente', en: 'Grouped-Query Attention for efficient inference' } },
+    description: { it: 'Diffusion + Transformer — sostituisce U-Net', en: 'Diffusion + Transformer — replaces U-Net' } },
 ]
 
 // ── MODELS ──────────────────────────────────────────────
@@ -94,30 +75,30 @@ const MODELS: ModelNode[] = [
   { id: 'claude', name: 'Claude Opus 4', company: 'Anthropic', year: 2025,
     color: '#f59e0b', category: 'LLM', categoryColor: CATEGORY_COLORS['LLM'],
     description: { it: 'AI sicura, Constitutional AI, ragionamento esteso', en: 'Safe AI, Constitutional AI, extended reasoning' },
-    ancestors: ['transformer', 'rlhf', 'constitutional', 'scaling', 'rope'] },
+    ancestors: ['transformer', 'rlhf', 'scaling'] },
   { id: 'gemini', name: 'Gemini', company: 'Google', year: 2023,
     color: '#3b82f6', category: 'Multimodal', categoryColor: CATEGORY_COLORS['Multimodal'],
     description: { it: 'Nativo multimodale, MoE, dalla culla di Transformer', en: 'Natively multimodal, MoE, from the cradle of Transformer' },
     ancestors: ['transformer', 'vit', 'moe', 'scaling', 'rlhf'] },
   { id: 'llama', name: 'Llama 3', company: 'Meta', year: 2024,
     color: '#8b5cf6', category: 'LLM', categoryColor: CATEGORY_COLORS['LLM'],
-    description: { it: 'Dense Transformer, open source, RoPE + GQA', en: 'Dense Transformer, open source, RoPE + GQA' },
-    ancestors: ['transformer', 'scaling', 'rope', 'gqa'] },
+    description: { it: 'Dense Transformer, open source', en: 'Dense Transformer, open source' },
+    ancestors: ['transformer', 'scaling', 'rlhf'] },
   { id: 'mistral', name: 'Mixtral', company: 'Mistral', year: 2024,
     color: '#ef4444', category: 'LLM MoE', categoryColor: CATEGORY_COLORS['LLM MoE'],
-    description: { it: 'Sparse MoE, 8 esperti top-2, sliding window', en: 'Sparse MoE, 8 experts top-2, sliding window' },
-    ancestors: ['transformer', 'moe', 'rope', 'gqa'] },
-  { id: 'sd3', name: 'Stable Diffusion 3', company: 'Stability', year: 2024,
+    description: { it: 'Sparse MoE, 8 esperti top-2', en: 'Sparse MoE, 8 experts top-2' },
+    ancestors: ['transformer', 'moe', 'scaling'] },
+  { id: 'sd3', name: 'SD 3', company: 'Stability', year: 2024,
     color: '#d946ef', category: 'Image Gen', categoryColor: CATEGORY_COLORS['Image Gen'],
-    description: { it: 'MM-DiT, flusso rettificato, triplo encoder testo', en: 'MM-DiT, rectified flow, triple text encoder' },
-    ancestors: ['diffusion', 'dit', 'ldm', 'clip', 'vae'] },
+    description: { it: 'Diffusion Transformer per immagini', en: 'Diffusion Transformer for images' },
+    ancestors: ['diffusion', 'dit', 'clip', 'vae'] },
   { id: 'sora', name: 'Sora', company: 'OpenAI', year: 2024,
     color: '#ec4899', category: 'Video Gen', categoryColor: CATEGORY_COLORS['Video Gen'],
-    description: { it: 'Spacetime DiT, patch 3D, spazio latente', en: 'Spacetime DiT, 3D patches, latent space' },
-    ancestors: ['diffusion', 'dit', 'vit', 'ldm', 'clip'] },
-  { id: 'mercury', name: 'Mercury', company: 'Inception Labs', year: 2025,
+    description: { it: 'Spacetime DiT, patch 3D', en: 'Spacetime DiT, 3D patches' },
+    ancestors: ['diffusion', 'dit', 'vit', 'clip'] },
+  { id: 'mercury', name: 'Mercury', company: 'Inception', year: 2025,
     color: '#f97316', category: 'Diffusion LLM', categoryColor: CATEGORY_COLORS['Diffusion LLM'],
-    description: { it: 'LLM a diffusione discreta, token in parallelo, 10x', en: 'Discrete diffusion LLM, parallel tokens, 10x' },
+    description: { it: 'LLM a diffusione, token in parallelo, 10x', en: 'Diffusion LLM, parallel tokens, 10x' },
     ancestors: ['transformer', 'diffusion', 'scaling'] },
 ]
 
@@ -132,33 +113,24 @@ export default function LineageSlide({ active, index }: Props) {
   const [hoveredDiscovery, setHoveredDiscovery] = useState<string | null>(null)
   const [tooltip, setTooltip] = useState<{ x: number; y: number; text: string; sub: string; color: string } | null>(null)
 
-  // Position discoveries by tier
+  // Position discoveries in a SINGLE row, evenly spaced with good padding
   const discoveryPositions = useMemo(() => {
-    const foundations = DISCOVERIES.filter(d => d.tier === 'foundation')
-    const bridges = DISCOVERIES.filter(d => d.tier === 'bridge')
-    const techniques = DISCOVERIES.filter(d => d.tier === 'technique')
-
-    const positioned: (DiscoveryNode & { fx: number; fy: number })[] = []
-
-    foundations.forEach((d, i) => {
-      positioned.push({ ...d, fx: 0.08 + (i / Math.max(foundations.length - 1, 1)) * 0.84, fy: 0.88 })
-    })
-    bridges.forEach((d, i) => {
-      positioned.push({ ...d, fx: 0.06 + (i / Math.max(bridges.length - 1, 1)) * 0.88, fy: 0.62 })
-    })
-    techniques.forEach((d, i) => {
-      positioned.push({ ...d, fx: 0.06 + (i / Math.max(techniques.length - 1, 1)) * 0.88, fy: 0.42 })
-    })
-
-    return positioned
+    const all = DISCOVERIES
+    const pad = 0.08
+    return all.map((d, i) => ({
+      ...d,
+      fx: pad + (i / Math.max(all.length - 1, 1)) * (1 - pad * 2),
+      fy: 0.72,
+    }))
   }, [])
 
+  // Position models with generous padding so nothing clips
   const modelPositions = useMemo(() => {
-    const pad = 0.06
+    const pad = 0.08
     return MODELS.map((m, i) => ({
       ...m,
       fx: pad + (i / (MODELS.length - 1)) * (1 - pad * 2),
-      fy: 0.15,
+      fy: 0.22,
     }))
   }, [])
 
@@ -174,13 +146,12 @@ export default function LineageSlide({ active, index }: Props) {
     ctx.fillStyle = nebGrad
     ctx.fillRect(0, 0, w, h)
 
-    // Tier labels
-    ctx.fillStyle = 'rgba(255, 255, 255, 0.06)'
-    ctx.font = '9px "JetBrains Mono", monospace'
-    ctx.textAlign = 'right'
-    ctx.fillText('FONDAZIONI', w * 0.04 + 60, h * 0.88 + 4)
-    ctx.fillText('ARCHITETTURE', w * 0.04 + 60, h * 0.62 + 4)
-    ctx.fillText('TECNICHE', w * 0.04 + 60, h * 0.42 + 4)
+    // Row labels
+    ctx.fillStyle = 'rgba(255, 255, 255, 0.05)'
+    ctx.font = '8px "JetBrains Mono", monospace'
+    ctx.textAlign = 'center'
+    ctx.fillText('MODELLI ATTUALI', w * 0.5, h * 0.22 - 28)
+    ctx.fillText('SCOPERTE FONDAMENTALI', w * 0.5, h * 0.72 - 18)
 
     // Draw connections
     const isAnyHovered = hoveredModel !== null || hoveredDiscovery !== null
