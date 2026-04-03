@@ -14,9 +14,11 @@ import IceAgeSlide from './components/slides/IceAgeSlide'
 import CambrianSlide from './components/slides/CambrianSlide'
 import IntelligenceSlide from './components/slides/IntelligenceSlide'
 import SingularitySlide from './components/slides/SingularitySlide'
+import NumbersSlide from './components/slides/NumbersSlide'
 import GalaxyMapSlide from './components/slides/GalaxyMapSlide'
+import CreditsSlide from './components/slides/CreditsSlide'
 
-const TOTAL_SLIDES = 9
+const TOTAL_SLIDES = 11
 
 function App() {
   const { activeSlide, scrollToSlide, containerRef } = useActiveSlide(TOTAL_SLIDES)
@@ -40,7 +42,9 @@ function App() {
         <CambrianSlide index={5} active={activeSlide === 5} />
         <IntelligenceSlide index={6} active={activeSlide === 6} />
         <SingularitySlide index={7} active={activeSlide === 7} />
-        <GalaxyMapSlide index={8} active={activeSlide === 8} />
+        <NumbersSlide index={8} active={activeSlide === 8} />
+        <GalaxyMapSlide index={9} active={activeSlide === 9} />
+        <CreditsSlide index={10} active={activeSlide === 10} />
       </div>
     </LangContext.Provider>
   )

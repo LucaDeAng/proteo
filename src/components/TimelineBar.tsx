@@ -2,14 +2,16 @@ import { motion } from 'framer-motion'
 
 const ERA_COLORS = [
   '#ffffff',   // 0 Genesis
-  '#6366f1',   // 1 Il Vuoto
+  '#4c1d95',   // 1 Il Vuoto
   '#f59e0b',   // 2 Big Bang
-  '#3b82f6',   // 3 Prime Stelle
-  '#06b6d4',   // 4 Ere Glaciali
+  '#ea580c',   // 3 Prime Stelle
+  '#0ea5e9',   // 4 Ere Glaciali
   '#10b981',   // 5 Esplosione
   '#a855f7',   // 6 Intelligenza
-  '#ef4444',   // 7 Singolarita
-  '#8b5cf6',   // 8 La Mappa
+  '#eab308',   // 7 Singolarita
+  '#c084fc',   // 8 I Numeri
+  '#8b5cf6',   // 9 La Mappa
+  '#ffffff',   // 10 Credits
 ]
 
 interface TimelineBarProps {

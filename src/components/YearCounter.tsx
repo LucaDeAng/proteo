@@ -1,6 +1,6 @@
 import { AnimatePresence, motion } from 'framer-motion'
 
-const SLIDE_YEARS: (number | null)[] = [null, 1936, 1950, 1958, 1974, 1997, 2012, 2024, 2026]
+const SLIDE_YEARS: (number | null)[] = [null, 1936, 1950, 1958, 1974, 1997, 2012, 2024, null, 2026, null]
 
 interface YearCounterProps {
   activeSlide: number

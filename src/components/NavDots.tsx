@@ -9,7 +9,9 @@ const slideLabels = [
   'Esplosione',
   'Intelligenza',
   'Singolarità',
+  'I Numeri',
   'La Mappa',
+  'Credits',
 ]
 
 interface NavDotsProps {
